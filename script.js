@@ -20,6 +20,12 @@
   let viewport = { width: window.innerWidth, height: window.innerHeight };
   let currentPositions = [];
   let rafPending = false;
+  let cachedRest = [];
+  let cachedTargets = [];
+  let cachedStarCenters = [];
+  let geometryDirty = true;
+  let lastMorphProgress = -1;
+  let lastLayoutMode = "";
 
   // Positions measured from the user's marked reference image (1672 × 941).
   // The desktop mapping accounts for background-size: cover, so each clickable
@@ -87,17 +93,30 @@
     return clamp(window.scrollY / distance, 0, 1);
   }
 
-  function setNavPosition(link, x, y, scale) {
-    const star = link.querySelector(".star-link__star");
-    const starCenterX = star ? star.offsetLeft + star.offsetWidth / 2 : (link.offsetWidth || 90) / 2;
-    const starCenterY = star ? star.offsetTop + star.offsetHeight / 2 : (link.offsetHeight || 24) / 2;
+  function measureStarCenters() {
+    cachedStarCenters = starLinks.map((link) => {
+      const star = link.querySelector(".star-link__star");
+      return [
+        star ? star.offsetLeft + star.offsetWidth / 2 : (link.offsetWidth || 90) / 2,
+        star ? star.offsetTop + star.offsetHeight / 2 : (link.offsetHeight || 24) / 2
+      ];
+    });
+  }
 
-    // Anchor the transform to the actual star, not to the text label, so the
-    // luminous point lands exactly on the coordinates marked in the artwork.
-    link.style.transformOrigin = starCenterX.toFixed(2) + "px " + starCenterY.toFixed(2) + "px";
+  function refreshGeometry() {
+    viewport = { width: window.innerWidth, height: window.innerHeight };
+    cachedRest = restingPositions();
+    cachedTargets = targetPositions();
+    measureStarCenters();
+    geometryDirty = false;
+  }
+
+  function setNavPosition(link, index, x, y, scale) {
+    const center = cachedStarCenters[index] || [22,22];
+    link.style.transformOrigin = center[0].toFixed(2) + "px " + center[1].toFixed(2) + "px";
     link.style.transform =
-      "translate3d(" + (x - starCenterX).toFixed(2) + "px," +
-      (y - starCenterY).toFixed(2) + "px,0) scale(" + scale.toFixed(3) + ")";
+      "translate3d(" + (x - center[0]).toFixed(2) + "px," +
+      (y - center[1]).toFixed(2) + "px,0) scale(" + scale.toFixed(3) + ")";
   }
 
   function updateLines(progress) {
@@ -111,6 +130,11 @@
     const drawT = smoothstep(clamp((progress - 0.005) / 0.11, 0, 1));
     const fadeT = smoothstep(clamp((progress - 0.16) / 0.46, 0, 1));
     const opacity = mix(0.0, 0.38, drawT) * (1 - fadeT);
+
+    if (opacity < 0.002) {
+      linePaths.forEach((path) => { path.style.opacity = "0"; });
+      return;
+    }
 
     linePaths.forEach((path, index) => {
       const a = currentPositions[index];
@@ -137,21 +161,37 @@
     rafPending = false;
 
     const raw = morphProgress();
-    const rest = restingPositions();
-    const end = targetPositions();
+    const layoutMode = raw >= 0.80 ? "header" : "hero";
 
-    // One continuous trajectory: from the original M directly to the final
-    // header slot. Movement starts almost immediately with scroll.
+    // Once the morph is capped, page scrolling no longer rewrites identical
+    // transforms on every frame. Resize or layout-mode changes still force it.
+    if (!geometryDirty && Math.abs(raw - lastMorphProgress) < 0.0005 && layoutMode === lastLayoutMode) {
+      return;
+    }
+
+    const formed = raw >= 0.04 && raw < 0.32;
+    const transitioning = raw >= 0.04 && raw < 0.80;
+    const headerReady = raw >= 0.80;
+
+    document.body.classList.toggle("constellation-formed", formed);
+    document.body.classList.toggle("header-transitioning", transitioning);
+    document.body.classList.toggle("header-ready", headerReady);
+
+    if (geometryDirty) {
+      refreshGeometry();
+    } else if (layoutMode !== lastLayoutMode) {
+      // Only the label orientation changes at the final header state; measure
+      // the five centers once instead of reading layout on every scroll frame.
+      measureStarCenters();
+    }
+
     const alignT = smoothstep(clamp((raw - 0.015) / 0.80, 0, 1));
 
     currentPositions = starLinks.map((link, index) => {
-      const x = mix(rest[index][0], end[index][0], alignT);
-      const y = mix(rest[index][1], end[index][1], alignT);
+      const x = mix(cachedRest[index][0], cachedTargets[index][0], alignT);
+      const y = mix(cachedRest[index][1], cachedTargets[index][1], alignT);
       const scale = mix(1, viewport.width <= 820 ? 0.92 : 0.9, alignT);
-      setNavPosition(link, x, y, scale);
-
-      link.style.setProperty("--star-formation", (1 - alignT).toFixed(3));
-      link.style.setProperty("--star-header", alignT.toFixed(3));
+      setNavPosition(link, index, x, y, scale);
       return [x, y];
     });
 
@@ -164,9 +204,8 @@
       morphHeader.setAttribute("aria-hidden", headerProgress > 0.5 ? "false" : "true");
     }
 
-    document.body.classList.toggle("constellation-formed", raw >= 0.04 && raw < 0.32);
-    document.body.classList.toggle("header-transitioning", raw >= 0.04 && raw < 0.80);
-    document.body.classList.toggle("header-ready", raw >= 0.80);
+    lastMorphProgress = raw;
+    lastLayoutMode = layoutMode;
   }
 
   function requestMorphUpdate() {
@@ -177,7 +216,8 @@
 
   window.addEventListener("scroll", requestMorphUpdate, { passive: true });
   window.addEventListener("resize", () => {
-    viewport = { width: window.innerWidth, height: window.innerHeight };
+    geometryDirty = true;
+    lastMorphProgress = -1;
     requestMorphUpdate();
   }, { passive: true });
 
@@ -235,5 +275,6 @@
   // The hero background is a single approved static image.
   // Only the five interactive navigation stars are animated.
 
+  refreshGeometry();
   requestMorphUpdate();
 })();
