@@ -46,9 +46,9 @@ img,svg{display:block;max-width:100%}
 }
 
 .ambient{position:fixed;inset:0;z-index:-5;pointer-events:none;overflow:hidden}
-.ambient__glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:.18}
+.ambient__glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:.07}
 .ambient__glow--one{width:44vw;height:44vw;left:-17vw;top:34vh;background:#0bbf91}
-.ambient__glow--two{width:36vw;height:36vw;right:-16vw;top:10vh;background:#4d5fc9;opacity:.1}
+.ambient__glow--two{width:36vw;height:36vw;right:-16vw;top:10vh;background:#4d5fc9;opacity:.03}
 .ambient__grain{
   position:absolute;inset:0;opacity:.025;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
@@ -293,8 +293,14 @@ img,svg{display:block;max-width:100%}
   position:absolute;
   inset:0;
   background:
-    radial-gradient(ellipse at center,transparent 47%,rgba(1,4,7,.12) 78%,rgba(1,4,7,.35) 100%),
-    linear-gradient(180deg,transparent 68%,rgba(1,4,7,.20));
+    /* mask the original image's large flare stars so only nav stars stand out */
+    radial-gradient(circle at 26.4% 7.5%,rgba(2,6,10,.72) 0 1.1%,rgba(2,6,10,.42) 2.0%,transparent 3.8%),
+    radial-gradient(circle at 72.0% 15.8%,rgba(2,6,10,.84) 0 1.7%,rgba(2,6,10,.55) 3.1%,transparent 5.3%),
+    radial-gradient(circle at 86.1% 24.9%,rgba(2,6,10,.86) 0 1.7%,rgba(2,6,10,.56) 3.0%,transparent 5.2%),
+    radial-gradient(circle at 73.5% 35.5%,rgba(2,6,10,.78) 0 1.4%,rgba(2,6,10,.48) 2.6%,transparent 4.5%),
+    radial-gradient(circle at 66.0% 47.0%,rgba(2,6,10,.80) 0 1.5%,rgba(2,6,10,.50) 2.8%,transparent 4.8%),
+    radial-gradient(circle at 86.6% 58.1%,rgba(2,6,10,.82) 0 1.5%,rgba(2,6,10,.50) 2.8%,transparent 4.8%),
+    radial-gradient(ellipse at center,transparent 45%,rgba(1,4,7,.08) 76%,rgba(1,4,7,.28) 100%);
   z-index:-2;
   pointer-events:none;
 }
