@@ -114,6 +114,7 @@ img,svg{display:block;max-width:100%}
   gap:10px;
   min-width:max-content;
   pointer-events:auto;
+  cursor:pointer;
   transform-origin:center;
   will-change:transform;
   color:#dfe8ea;
@@ -161,6 +162,8 @@ img,svg{display:block;max-width:100%}
   transform:translate(-50%,-50%);
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.94) 46%,var(--star-color) 50%,rgba(255,255,255,.94) 54%,transparent);
   box-shadow:0 0 8px var(--star-glow);
+  animation:starRayTwinkle var(--pulse-duration,4.4s) ease-in-out infinite;
+  animation-delay:var(--pulse-delay,0s);
 }
 .star-link__star::after{
   width:1px;
@@ -168,6 +171,8 @@ img,svg{display:block;max-width:100%}
   transform:translate(-50%,-50%);
   background:linear-gradient(180deg,transparent,rgba(255,255,255,.92) 45%,var(--star-color) 50%,rgba(255,255,255,.92) 55%,transparent);
   box-shadow:0 0 8px var(--star-glow);
+  animation:starRayTwinkle var(--pulse-duration,4.4s) ease-in-out infinite;
+  animation-delay:calc(var(--pulse-delay,0s) - .45s);
 }
 .star-link__star i{
   width:var(--core);
@@ -592,8 +597,16 @@ img,svg{display:block;max-width:100%}
 
 @keyframes hintFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 @keyframes starCorePulse{
-  0%,100%{transform:scale(.96);opacity:.92}
-  50%{transform:scale(1.05);opacity:1}
+  0%,100%{transform:scale(.88);opacity:.62}
+  42%{transform:scale(1.10);opacity:1}
+  55%{transform:scale(.94);opacity:.78}
+  68%{transform:scale(1.04);opacity:.96}
+}
+@keyframes starRayTwinkle{
+  0%,100%{opacity:.38}
+  42%{opacity:1}
+  55%{opacity:.55}
+  68%{opacity:.88}
 }
 
 @media (max-width:1080px){
