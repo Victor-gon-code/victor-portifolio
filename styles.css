@@ -67,10 +67,10 @@ img,svg{display:block;max-width:100%}
   height:82px;
   opacity:var(--header-progress);
   background:linear-gradient(180deg,rgba(4,9,14,.88),rgba(4,9,14,.56));
-  border-bottom:1px solid rgba(190,226,233,calc(.06 + var(--header-progress) * .1));
-  backdrop-filter:blur(calc(var(--header-progress) * 18px)) saturate(120%);
-  -webkit-backdrop-filter:blur(calc(var(--header-progress) * 18px)) saturate(120%);
-  box-shadow:0 10px 60px rgba(0,0,0,calc(var(--header-progress) * .16));
+  border-bottom:1px solid rgba(190,226,233,.12);
+  backdrop-filter:blur(18px) saturate(120%);
+  -webkit-backdrop-filter:blur(18px) saturate(120%);
+  box-shadow:0 10px 60px rgba(0,0,0,.16);
   transition:opacity .12s linear;
 }
 
@@ -78,8 +78,9 @@ img,svg{display:block;max-width:100%}
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  pointer-events:auto;
+  pointer-events:none;
 }
+.header-ready .morph-brand,.header-ready .morph-contact{pointer-events:auto}
 .morph-brand{left:clamp(20px,4vw,62px);display:flex;flex-direction:column;gap:1px}
 .morph-brand__name{
   font-family:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,serif;
