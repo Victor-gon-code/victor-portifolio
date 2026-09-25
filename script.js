@@ -105,11 +105,12 @@
     const h = viewport.height;
     lineSvg.setAttribute("viewBox", "0 0 " + w + " " + h);
 
-    // The M is intentionally discreet when the page opens. It becomes clear
-    // for a short moment before the same stars reorganize into the header.
-    const formT = smoothstep(clamp(progress / 0.28, 0, 1));
-    const departT = smoothstep(clamp((progress - 0.28) / 0.72, 0, 1));
-    const opacity = mix(0.018, 0.34, formT) * (1 - departT) + (0.028 * departT);
+    // First the four segments are literally drawn by the scroll, revealing the M.
+    // When the stars begin to rise into the header, the guide remains connected
+    // but fades so it never competes with the content.
+    const drawT = smoothstep(clamp((progress - 0.015) / 0.25, 0, 1));
+    const departT = smoothstep(clamp((progress - 0.31) / 0.57, 0, 1));
+    const opacity = mix(0.0, 0.56, drawT) * (1 - departT) + (0.10 * departT);
 
     linePaths.forEach((path, index) => {
       const a = currentPositions[index];
@@ -121,8 +122,14 @@
         "M " + a[0].toFixed(2) + " " + a[1].toFixed(2) +
         " L " + b[0].toFixed(2) + " " + b[1].toFixed(2)
       );
+
+      const dx = b[0] - a[0];
+      const dy = b[1] - a[1];
+      const length = Math.max(1, Math.hypot(dx, dy));
+
+      path.style.strokeDasharray = length.toFixed(2) + " " + length.toFixed(2);
+      path.style.strokeDashoffset = (length * (1 - drawT)).toFixed(2);
       path.style.opacity = opacity.toFixed(3);
-      path.style.strokeDashoffset = ((1 - progress) * 18).toFixed(2);
     });
   }
 
@@ -134,8 +141,8 @@
     const formed = mPositions();
     const end = targetPositions();
 
-    const formT = smoothstep(clamp(raw / 0.28, 0, 1));
-    const headerT = smoothstep(clamp((raw - 0.28) / 0.72, 0, 1));
+    const formT = smoothstep(clamp((raw - 0.015) / 0.25, 0, 1));
+    const headerT = smoothstep(clamp((raw - 0.31) / 0.57, 0, 1));
 
     currentPositions = starLinks.map((link, index) => {
       const mx = mix(rest[index][0], formed[index][0], formT);
@@ -152,15 +159,15 @@
 
     updateLines(raw);
 
-    const headerProgress = smoothstep(clamp((raw - 0.62) / 0.38, 0, 1));
+    const headerProgress = smoothstep(clamp((raw - 0.58) / 0.36, 0, 1));
     root.style.setProperty("--header-progress", headerProgress.toFixed(3));
 
     if (morphHeader) {
       morphHeader.setAttribute("aria-hidden", headerProgress > 0.5 ? "false" : "true");
     }
 
-    document.body.classList.toggle("constellation-formed", raw >= 0.20 && raw < 0.56);
-    document.body.classList.toggle("header-ready", raw > 0.88);
+    document.body.classList.toggle("constellation-formed", raw >= 0.10 && raw < 0.60);
+    document.body.classList.toggle("header-ready", raw > 0.84);
   }
 
   function requestMorphUpdate() {
