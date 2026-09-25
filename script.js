@@ -26,11 +26,11 @@
   // star stays on the chosen point even if the browser aspect ratio changes.
   const HERO_IMAGE = { width: 1672, height: 941 };
   const HERO_POINTS = [
-    [974.8 / 1672, 445.2 / 941],   // Sobre mim — lower-left stroke of the M
-    [1148.1 / 1672, 214.1 / 941],  // Projetos — upper-left peak
-    [1291.7 / 1672, 347.8 / 941],  // Como funciona — center valley
-    [1473.2 / 1672, 244.1 / 941],  // Informações — upper-right peak
-    [1501.0 / 1672, 545.2 / 941]   // Contato — lower-right stroke
+    [1171 / 1672, 514 / 941],  // Sobre mim — moved right/down as marked
+    [1240 / 1672, 148 / 941],  // Projetos — upper-left peak
+    [1343 / 1672, 322 / 941],  // Como funciona — moved right/up as marked
+    [1478 / 1672, 234 / 941],  // Informações — upper-right peak
+    [1490 / 1672, 536 / 941]   // Contato — lower-right stroke
   ];
 
   function heroImagePoint(nx, ny) {
@@ -109,7 +109,7 @@
     // for a short moment before the same stars reorganize into the header.
     const formT = smoothstep(clamp(progress / 0.28, 0, 1));
     const departT = smoothstep(clamp((progress - 0.28) / 0.72, 0, 1));
-    const opacity = mix(0.025, 0.54, formT) * (1 - departT) + (0.035 * departT);
+    const opacity = mix(0.018, 0.34, formT) * (1 - departT) + (0.028 * departT);
 
     linePaths.forEach((path, index) => {
       const a = currentPositions[index];
