@@ -1,0 +1,45 @@
+name: Optimize final hero
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/optimize-hero.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Pillow
+        run: python -m pip install --quiet pillow
+
+      - name: Create visually lossless WebP
+        run: |
+          python - <<'PY'
+          from PIL import Image
+          src = Image.open("assets/hero-final.png").convert("RGB")
+          src.save(
+              "assets/hero-final.webp",
+              "WEBP",
+              quality=92,
+              method=6,
+          )
+          print("source:", src.size)
+          PY
+          ls -lh assets/hero-final.png assets/hero-final.webp
+
+      - name: Commit optimized hero
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/hero-final.webp
+          git commit -m "perf: add high-quality optimized hero WebP" || exit 0
+          git push origin main
