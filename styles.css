@@ -233,8 +233,6 @@ img,svg{display:block;max-width:100%}
 }
 .star-link:nth-child(4),
 .star-link:nth-child(5){flex-direction:row-reverse;text-align:right}
-.header-transitioning .star-link:nth-child(4),
-.header-transitioning .star-link:nth-child(5),
 .header-ready .star-link:nth-child(4),
 .header-ready .star-link:nth-child(5){flex-direction:row;text-align:left}
 .header-ready .star-link{flex-direction:row;text-align:left}
@@ -250,7 +248,7 @@ img,svg{display:block;max-width:100%}
   position:relative;
   isolation:isolate;
   overflow:hidden;
-  background-image:url("assets/hero-final.png");
+  background-image:url("assets/hero-final.webp");
   background-size:cover;
   background-position:center center;
   background-repeat:no-repeat;
