@@ -58,21 +58,21 @@
     // Tablet keeps a wider M, while desktop continues to use the artwork points.
     if (w <= 480) {
       return [
-        [w * 0.16, h * 0.87],
-        [w * 0.33, h * 0.75],
-        [w * 0.50, h * 0.85],
-        [w * 0.67, h * 0.75],
-        [w * 0.84, h * 0.87]
+        [w * 0.14, h * 0.89],
+        [w * 0.32, h * 0.77],
+        [w * 0.50, h * 0.87],
+        [w * 0.68, h * 0.77],
+        [w * 0.86, h * 0.89]
       ];
     }
 
     if (w <= 820) {
       return [
-        [w * 0.14, h * 0.80],
-        [w * 0.32, h * 0.67],
-        [w * 0.50, h * 0.78],
-        [w * 0.68, h * 0.66],
-        [w * 0.86, h * 0.80]
+        [w * 0.13, h * 0.86],
+        [w * 0.315, h * 0.73],
+        [w * 0.50, h * 0.84],
+        [w * 0.685, h * 0.72],
+        [w * 0.87, h * 0.86]
       ];
     }
 
@@ -91,13 +91,13 @@
     // Phones use a dedicated second row in the compact header. Tablet keeps
     // the same idea with slightly tighter spacing; desktop stays unchanged.
     if (w <= 480) {
-      const xs = [0.10, 0.30, 0.50, 0.70, 0.90];
-      return xs.map((x) => [w * x, 75]);
+      const xs = [0.09, 0.295, 0.50, 0.705, 0.91];
+      return xs.map((x) => [w * x, 67]);
     }
 
     if (w <= 820) {
-      const xs = [0.11, 0.305, 0.50, 0.695, 0.89];
-      return xs.map((x) => [w * x, 76]);
+      const xs = [0.10, 0.30, 0.50, 0.70, 0.90];
+      return xs.map((x) => [w * x, 68]);
     }
 
     const xs = w < 1120
@@ -109,8 +109,8 @@
 
   function morphProgress() {
     if (reducedMotion) return window.scrollY > 24 ? 1 : 0;
-    const factor = viewport.width <= 480 ? 0.72 : viewport.width <= 820 ? 0.70 : 0.72;
-    const minimum = viewport.width <= 480 ? 500 : viewport.width <= 820 ? 520 : 520;
+    const factor = viewport.width <= 480 ? 0.78 : viewport.width <= 820 ? 0.74 : 0.72;
+    const minimum = viewport.width <= 480 ? 540 : viewport.width <= 820 ? 560 : 520;
     const distance = Math.max(viewport.height * factor, minimum);
     return clamp(window.scrollY / distance, 0, 1);
   }
@@ -257,7 +257,7 @@
       if (!target) return;
 
       event.preventDefault();
-      const offset = viewport.width <= 820 ? 126 : 82;
+      const offset = viewport.width <= 820 ? 132 : 82;
       const top = target.getBoundingClientRect().top + window.scrollY - offset + 1;
 
       window.scrollTo({
