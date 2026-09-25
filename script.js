@@ -105,12 +105,12 @@
     const h = viewport.height;
     lineSvg.setAttribute("viewBox", "0 0 " + w + " " + h);
 
-    // First the four segments are literally drawn by the scroll, revealing the M.
-    // When the stars begin to rise into the header, the guide remains connected
-    // but fades so it never competes with the content.
-    const drawT = smoothstep(clamp((progress - 0.02) / 0.24, 0, 1));
-    const departT = smoothstep(clamp((progress - 0.30) / 0.54, 0, 1));
-    const opacity = mix(0.0, 0.42, drawT) * (1 - departT);
+    // The M appears immediately as the user starts scrolling, while the very
+    // same stars are already travelling toward the header. There is no
+    // separate "drop/formation" phase before alignment anymore.
+    const drawT = smoothstep(clamp((progress - 0.005) / 0.11, 0, 1));
+    const fadeT = smoothstep(clamp((progress - 0.16) / 0.46, 0, 1));
+    const opacity = mix(0.0, 0.38, drawT) * (1 - fadeT);
 
     linePaths.forEach((path, index) => {
       const a = currentPositions[index];
@@ -138,37 +138,35 @@
 
     const raw = morphProgress();
     const rest = restingPositions();
-    const formed = mPositions();
     const end = targetPositions();
 
-    const formT = smoothstep(clamp((raw - 0.02) / 0.24, 0, 1));
-    const headerT = smoothstep(clamp((raw - 0.30) / 0.54, 0, 1));
+    // One continuous trajectory: from the original M directly to the final
+    // header slot. Movement starts almost immediately with scroll.
+    const alignT = smoothstep(clamp((raw - 0.015) / 0.80, 0, 1));
 
     currentPositions = starLinks.map((link, index) => {
-      const mx = mix(rest[index][0], formed[index][0], formT);
-      const my = mix(rest[index][1], formed[index][1], formT);
-      const x = mix(mx, end[index][0], headerT);
-      const y = mix(my, end[index][1], headerT);
-      const scale = mix(1, viewport.width <= 820 ? 0.92 : 0.9, headerT);
+      const x = mix(rest[index][0], end[index][0], alignT);
+      const y = mix(rest[index][1], end[index][1], alignT);
+      const scale = mix(1, viewport.width <= 820 ? 0.92 : 0.9, alignT);
       setNavPosition(link, x, y, scale);
 
-      link.style.setProperty("--star-formation", formT.toFixed(3));
-      link.style.setProperty("--star-header", headerT.toFixed(3));
+      link.style.setProperty("--star-formation", (1 - alignT).toFixed(3));
+      link.style.setProperty("--star-header", alignT.toFixed(3));
       return [x, y];
     });
 
     updateLines(raw);
 
-    const headerProgress = smoothstep(clamp((raw - 0.58) / 0.36, 0, 1));
+    const headerProgress = smoothstep(clamp((raw - 0.48) / 0.30, 0, 1));
     root.style.setProperty("--header-progress", headerProgress.toFixed(3));
 
     if (morphHeader) {
       morphHeader.setAttribute("aria-hidden", headerProgress > 0.5 ? "false" : "true");
     }
 
-    document.body.classList.toggle("constellation-formed", raw >= 0.10 && raw < 0.60);
-    document.body.classList.toggle("header-transitioning", raw >= 0.28 && raw < 0.84);
-    document.body.classList.toggle("header-ready", raw > 0.84);
+    document.body.classList.toggle("constellation-formed", raw >= 0.04 && raw < 0.32);
+    document.body.classList.toggle("header-transitioning", raw >= 0.04 && raw < 0.80);
+    document.body.classList.toggle("header-ready", raw >= 0.80);
   }
 
   function requestMorphUpdate() {
