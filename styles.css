@@ -110,13 +110,19 @@ img,svg{display:block;max-width:100%}
   overflow:visible;
   pointer-events:none;
 }
+.constellation-lines{
+  mix-blend-mode:screen;
+}
 .constellation-lines path{
   fill:none;
-  stroke:rgba(205,239,246,.38);
-  stroke-width:.72;
+  stroke:rgba(218,244,250,.78);
+  stroke-width:1.05;
+  stroke-linecap:round;
   vector-effect:non-scaling-stroke;
-  filter:drop-shadow(0 0 3px rgba(116,217,228,.16));
-  stroke-dasharray:4 10;
+  filter:
+    drop-shadow(0 0 2px rgba(220,250,255,.42))
+    drop-shadow(0 0 7px rgba(89,215,226,.24));
+  opacity:0;
 }
 
 .constellation-nav{position:absolute;inset:0}
@@ -258,7 +264,7 @@ img,svg{display:block;max-width:100%}
   position:relative;
   isolation:isolate;
   overflow:hidden;
-  background-image:url("assets/hero-cosmos.webp");
+  background-image:url("assets/hero-cosmos-4k.webp");
   background-size:cover;
   background-position:center center;
   background-repeat:no-repeat;
@@ -296,9 +302,10 @@ img,svg{display:block;max-width:100%}
 .hero__content{
   position:relative;
   z-index:2;
-  width:min(46vw,640px);
-  margin-left:clamp(28px,7vw,110px);
-  padding-top:clamp(126px,17vh,190px);
+  width:min(44vw,620px);
+  margin-left:clamp(28px,6.2vw,100px);
+  padding-top:clamp(126px,16.5vh,184px);
+  filter:drop-shadow(0 14px 34px rgba(0,0,0,.20));
 }
 .eyebrow,.section-kicker{
   display:flex;
@@ -329,11 +336,12 @@ img,svg{display:block;max-width:100%}
 }
 .hero__tagline strong{color:var(--green);font-weight:600}
 .hero__copy{
-  max-width:520px;
+  max-width:510px;
   margin:0;
-  color:#91a1aa;
+  color:#aebbc1;
   font-size:clamp(13px,1.05vw,16px);
-  line-height:1.75;
+  line-height:1.72;
+  text-shadow:0 2px 18px rgba(0,0,0,.75);
 }
 .hero__actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:31px}
 
@@ -721,4 +729,34 @@ img,svg{display:block;max-width:100%}
 .header-ready .star-link.is-active .star-link__star{
   transform:scale(.86);
   filter:brightness(1.22) drop-shadow(0 0 12px var(--star-glow));
+}
+
+.hero__content::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  left:-34px;
+  top:84px;
+  width:min(48vw,690px);
+  height:500px;
+  border-radius:50%;
+  background:radial-gradient(ellipse at 42% 44%,rgba(2,7,11,.30),rgba(2,7,11,.10) 52%,transparent 73%);
+  filter:blur(12px);
+  pointer-events:none;
+}
+.hero h1{
+  text-shadow:
+    0 3px 18px rgba(0,0,0,.58),
+    0 16px 55px rgba(0,0,0,.34);
+}
+.hero__tagline{
+  text-shadow:0 3px 22px rgba(0,0,0,.72);
+}
+.star-link__label{
+  border:1px solid rgba(219,244,246,.07);
+  box-shadow:0 6px 18px rgba(0,0,0,.13);
+}
+.constellation-formed .star-link__label{
+  background:rgba(2,8,12,.30);
+  border-color:rgba(211,245,243,.12);
 }
