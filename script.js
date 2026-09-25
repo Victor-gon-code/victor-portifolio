@@ -167,6 +167,7 @@
     }
 
     document.body.classList.toggle("constellation-formed", raw >= 0.10 && raw < 0.60);
+    document.body.classList.toggle("header-transitioning", raw >= 0.28 && raw < 0.84);
     document.body.classList.toggle("header-ready", raw > 0.84);
   }
 
