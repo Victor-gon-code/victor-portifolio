@@ -1,0 +1,72 @@
+name: Build high-resolution hero
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/build-hero.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare image tools
+        run: python -m pip install --quiet pillow opencv-python-headless numpy
+
+      - name: Download reference and build 4K WebP
+        env:
+          HERO_SOURCE: "https://d2ol7oe51mr4n9.cloudfront.net/user_3JVQ8LdVRmXdWymbfX17LphqiGi/26efd74c-58d1-4bba-8517-ea55700326b1.png"
+        run: |
+          mkdir -p assets
+          curl -fL "$HERO_SOURCE" -o /tmp/hero-source.png
+          python - <<'PY'
+          import cv2
+          import numpy as np
+          from PIL import Image
+
+          src = cv2.imread("/tmp/hero-source.png", cv2.IMREAD_COLOR)
+          if src is None:
+              raise SystemExit("Could not load hero source")
+
+          # Remove only the user's saturated-red annotation strokes.
+          b, g, r = cv2.split(src)
+          mask = ((r > 155) & (r > g * 1.65) & (r > b * 1.55) & (g < 125)).astype(np.uint8) * 255
+          kernel = np.ones((5, 5), np.uint8)
+          mask = cv2.dilate(mask, kernel, iterations=2)
+          cleaned = cv2.inpaint(src, mask, 7, cv2.INPAINT_TELEA)
+
+          rgb = cv2.cvtColor(cleaned, cv2.COLOR_BGR2RGB)
+          image = Image.fromarray(rgb)
+          image = image.resize((3840, 2160), Image.Resampling.LANCZOS)
+
+          # High-detail 4K WebP: substantially sharper than the previous 1024px/14KB asset.
+          image.save(
+              "assets/hero-cosmos-4k.webp",
+              "WEBP",
+              quality=82,
+              method=6
+          )
+          print("hero:", image.size)
+          PY
+          ls -lh assets/hero-cosmos-4k.webp
+
+      - name: Commit generated hero
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/hero-cosmos-4k.webp
+          if git diff --cached --quiet; then
+            echo "No hero changes to commit."
+            exit 0
+          fi
+          git commit -m "feat: add high-resolution 4K cosmic hero"
+          git push origin main
