@@ -21,26 +21,52 @@
   let currentPositions = [];
   let rafPending = false;
 
-  function initialPositions() {
+  // The hero starts with five bright navigation stars that only hint at an M.
+  // During the first part of the scroll they settle into the true M, then rise
+  // and become the persistent header navigation.
+  function restingPositions() {
     const w = viewport.width;
     const h = viewport.height;
 
     if (w <= 820) {
       return [
-        [w * 0.18, h * 0.56],
-        [w * 0.34, h * 0.68],
-        [w * 0.50, h * 0.59],
-        [w * 0.67, h * 0.69],
-        [w * 0.84, h * 0.56]
+        [w * 0.17, h * 0.69],
+        [w * 0.34, h * 0.56],
+        [w * 0.50, h * 0.66],
+        [w * 0.67, h * 0.55],
+        [w * 0.84, h * 0.70]
       ];
     }
 
     return [
-      [w * 0.58, h * 0.31],
-      [w * 0.67, h * 0.52],
-      [w * 0.75, h * 0.39],
-      [w * 0.83, h * 0.55],
-      [w * 0.91, h * 0.32]
+      [w * 0.59, h * 0.55],
+      [w * 0.67, h * 0.30],
+      [w * 0.75, h * 0.47],
+      [w * 0.83, h * 0.29],
+      [w * 0.91, h * 0.56]
+    ];
+  }
+
+  function mPositions() {
+    const w = viewport.width;
+    const h = viewport.height;
+
+    if (w <= 820) {
+      return [
+        [w * 0.17, h * 0.70],
+        [w * 0.34, h * 0.52],
+        [w * 0.50, h * 0.66],
+        [w * 0.67, h * 0.52],
+        [w * 0.84, h * 0.70]
+      ];
+    }
+
+    return [
+      [w * 0.59, h * 0.56],
+      [w * 0.67, h * 0.29],
+      [w * 0.75, h * 0.48],
+      [w * 0.83, h * 0.29],
+      [w * 0.91, h * 0.56]
     ];
   }
 
@@ -60,7 +86,7 @@
 
   function morphProgress() {
     if (reducedMotion) return window.scrollY > 24 ? 1 : 0;
-    const distance = Math.max(viewport.height * 0.58, 440);
+    const distance = Math.max(viewport.height * 0.72, 520);
     return clamp(window.scrollY / distance, 0, 1);
   }
 
@@ -77,11 +103,11 @@
     const h = viewport.height;
     lineSvg.setAttribute("viewBox", "0 0 " + w + " " + h);
 
-    const formation = Math.sin(Math.PI * clamp(progress, 0, 1));
-    const baseOpacity = 0.12 * (1 - progress);
-    const emphasis = 0.58 * formation;
-    const finalOpacity = 0.05 * progress;
-    const opacity = baseOpacity + emphasis + finalOpacity;
+    // The M is intentionally discreet when the page opens. It becomes clear
+    // for a short moment before the same stars reorganize into the header.
+    const formT = smoothstep(clamp(progress / 0.28, 0, 1));
+    const departT = smoothstep(clamp((progress - 0.28) / 0.72, 0, 1));
+    const opacity = mix(0.075, 0.72, formT) * (1 - departT) + (0.045 * departT);
 
     linePaths.forEach((path, index) => {
       const a = currentPositions[index];
@@ -102,28 +128,37 @@
     rafPending = false;
 
     const raw = morphProgress();
-    const eased = smoothstep(raw);
-    const start = initialPositions();
+    const rest = restingPositions();
+    const formed = mPositions();
     const end = targetPositions();
 
+    const formT = smoothstep(clamp(raw / 0.28, 0, 1));
+    const headerT = smoothstep(clamp((raw - 0.28) / 0.72, 0, 1));
+
     currentPositions = starLinks.map((link, index) => {
-      const x = mix(start[index][0], end[index][0], eased);
-      const y = mix(start[index][1], end[index][1], eased);
-      const scale = mix(1, viewport.width <= 820 ? 0.92 : 0.9, eased);
+      const mx = mix(rest[index][0], formed[index][0], formT);
+      const my = mix(rest[index][1], formed[index][1], formT);
+      const x = mix(mx, end[index][0], headerT);
+      const y = mix(my, end[index][1], headerT);
+      const scale = mix(1, viewport.width <= 820 ? 0.92 : 0.9, headerT);
       setNavPosition(link, x, y, scale);
+
+      link.style.setProperty("--star-formation", formT.toFixed(3));
+      link.style.setProperty("--star-header", headerT.toFixed(3));
       return [x, y];
     });
 
     updateLines(raw);
 
-    const headerProgress = smoothstep(clamp((raw - 0.56) / 0.44, 0, 1));
+    const headerProgress = smoothstep(clamp((raw - 0.62) / 0.38, 0, 1));
     root.style.setProperty("--header-progress", headerProgress.toFixed(3));
 
     if (morphHeader) {
       morphHeader.setAttribute("aria-hidden", headerProgress > 0.5 ? "false" : "true");
     }
 
-    document.body.classList.toggle("header-ready", raw > 0.86);
+    document.body.classList.toggle("constellation-formed", raw >= 0.20 && raw < 0.56);
+    document.body.classList.toggle("header-ready", raw > 0.88);
   }
 
   function requestMorphUpdate() {
@@ -212,7 +247,7 @@
   function buildStars() {
     if (!ctx) return;
     const random = seededRandom(240926);
-    const count = viewport.width <= 560 ? 66 : viewport.width <= 900 ? 92 : 138;
+    const count = viewport.width <= 560 ? 44 : viewport.width <= 900 ? 62 : 88;
 
     stars = Array.from({ length: count }, (_, index) => {
       const depth = 0.25 + random() * 0.75;
