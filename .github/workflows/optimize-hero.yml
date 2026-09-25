@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/optimize-hero.yml"
+      - "styles.css"
   workflow_dispatch:
 
 permissions:
