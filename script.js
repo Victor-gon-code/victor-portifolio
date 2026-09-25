@@ -65,9 +65,8 @@
   }
 
   function setNavPosition(link, x, y, scale) {
-    const rect = link.getBoundingClientRect();
-    const width = rect.width || 90;
-    const height = rect.height || 24;
+    const width = link.offsetWidth || 90;
+    const height = link.offsetHeight || 24;
     link.style.transform =
       "translate3d(" + (x - width / 2).toFixed(2) + "px," +
       (y - height / 2).toFixed(2) + "px,0) scale(" + scale.toFixed(3) + ")";
