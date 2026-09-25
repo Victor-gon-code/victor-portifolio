@@ -708,3 +708,160 @@ img,svg{display:block;max-width:100%}
   background:rgba(2,8,12,.14);
   border-color:rgba(219,244,246,.06);
 }
+
+
+/* === Atmospheric continuation below the hero ===============================
+   Each section keeps the same deep-space palette, but gains its own diffuse
+   nebula/fog layer so the page feels continuous instead of flat or repetitive.
+   No bright stars are added here: the five navigation stars remain unique. */
+.section{
+  overflow:hidden;
+  isolation:isolate;
+  background-color:#05080d;
+  --nebula-a:rgba(48,171,162,.10);
+  --nebula-b:rgba(80,104,195,.075);
+  --nebula-c:rgba(118,72,162,.055);
+}
+.section__inner{
+  position:relative;
+  z-index:2;
+}
+.section::after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:-22% -12%;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse 34% 24% at 18% 38%,var(--nebula-a),transparent 72%),
+    radial-gradient(ellipse 30% 22% at 78% 30%,var(--nebula-b),transparent 74%),
+    radial-gradient(ellipse 28% 18% at 58% 82%,var(--nebula-c),transparent 76%);
+  filter:blur(34px);
+  opacity:.78;
+  transform:translate3d(0,0,0) scale(1.03);
+  animation:nebulaDrift 18s ease-in-out infinite alternate;
+}
+.section::before{
+  content:"";
+  position:absolute;
+  z-index:1;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(5,8,13,.56) 0%,rgba(5,8,13,.16) 18%,rgba(5,8,13,.10) 78%,rgba(5,8,13,.62) 100%),
+    radial-gradient(ellipse at 50% 50%,transparent 42%,rgba(2,5,9,.18) 100%);
+}
+
+/* About: teal-blue mist, like the cooler side of the hero sky. */
+.section--about{
+  --nebula-a:rgba(43,196,168,.13);
+  --nebula-b:rgba(55,123,190,.095);
+  --nebula-c:rgba(105,74,162,.060);
+  background:
+    radial-gradient(ellipse at 10% 72%,rgba(15,92,86,.16),transparent 36%),
+    radial-gradient(ellipse at 82% 28%,rgba(37,75,132,.14),transparent 34%),
+    linear-gradient(180deg,#05080d 0%,#071018 52%,#05090f 100%);
+}
+
+/* Projects: slightly brighter teal haze around the featured product. */
+.section--projects{
+  --nebula-a:rgba(32,219,160,.105);
+  --nebula-b:rgba(54,146,193,.085);
+  --nebula-c:rgba(113,76,176,.050);
+  background:
+    radial-gradient(ellipse at 72% 34%,rgba(21,111,99,.15),transparent 32%),
+    radial-gradient(ellipse at 20% 76%,rgba(37,70,119,.13),transparent 38%),
+    linear-gradient(180deg,#05080d 0%,#071119 48%,#05080d 100%);
+}
+
+/* Process: cooler indigo/violet fog, still restrained. */
+.section--process{
+  --nebula-a:rgba(62,168,178,.085);
+  --nebula-b:rgba(74,99,204,.11);
+  --nebula-c:rgba(139,79,184,.075);
+  background:
+    radial-gradient(ellipse at 84% 24%,rgba(62,75,153,.15),transparent 35%),
+    radial-gradient(ellipse at 18% 72%,rgba(17,88,92,.13),transparent 34%),
+    linear-gradient(180deg,#05080d 0%,#081019 50%,#05080d 100%);
+}
+.section--process::before{
+  content:"";
+  position:absolute;
+  z-index:1;
+  inset:0;
+  width:auto;
+  height:auto;
+  right:auto;
+  top:auto;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  background:
+    linear-gradient(180deg,rgba(5,8,13,.58) 0%,rgba(5,8,13,.12) 20%,rgba(5,8,13,.08) 76%,rgba(5,8,13,.62) 100%),
+    radial-gradient(circle at 92% 28%,transparent 0 12%,rgba(117,137,226,.035) 12.2% 12.6%,transparent 12.8% 20%,rgba(117,137,226,.022) 20.2% 20.5%,transparent 20.7%),
+    radial-gradient(ellipse at 50% 50%,transparent 44%,rgba(2,5,9,.15) 100%);
+}
+
+/* Information: darker emerald mist, calmer for reading. */
+.section--info{
+  --nebula-a:rgba(36,165,141,.095);
+  --nebula-b:rgba(46,91,158,.080);
+  --nebula-c:rgba(93,72,146,.045);
+  background:
+    radial-gradient(ellipse at 18% 30%,rgba(15,89,80,.13),transparent 35%),
+    radial-gradient(ellipse at 84% 66%,rgba(31,60,110,.13),transparent 38%),
+    linear-gradient(180deg,#05080d 0%,#071017 52%,#05080d 100%);
+}
+
+/* Contact: a soft convergence of the palette, like the end of the journey. */
+.section--contact{
+  --nebula-a:rgba(35,218,160,.105);
+  --nebula-b:rgba(72,119,210,.105);
+  --nebula-c:rgba(152,83,183,.075);
+  background:
+    radial-gradient(ellipse at 50% 58%,rgba(18,127,105,.14),transparent 30%),
+    radial-gradient(ellipse at 76% 28%,rgba(60,74,151,.14),transparent 34%),
+    radial-gradient(ellipse at 24% 72%,rgba(92,52,126,.09),transparent 32%),
+    linear-gradient(180deg,#05080d 0%,#071017 55%,#04070b 100%);
+}
+
+/* Glass surfaces pick up the atmosphere without becoming glossy or loud. */
+.project-feature,
+.project-mini{
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+.project-mini{
+  box-shadow:0 18px 42px rgba(0,0,0,.13),inset 0 1px rgba(255,255,255,.018);
+}
+.info-row{
+  position:relative;
+}
+.info-row::after{
+  content:"";
+  position:absolute;
+  left:44px;
+  right:0;
+  bottom:-1px;
+  height:1px;
+  background:linear-gradient(90deg,rgba(91,231,194,.08),rgba(124,154,218,.06),transparent);
+}
+
+@keyframes nebulaDrift{
+  0%{transform:translate3d(-1.5%,0,0) scale(1.03)}
+  50%{transform:translate3d(1.25%,-1.1%,0) scale(1.06)}
+  100%{transform:translate3d(0.5%,1.1%,0) scale(1.04)}
+}
+
+@media (max-width:820px){
+  .section::after{
+    inset:-15% -35%;
+    filter:blur(28px);
+    opacity:.70;
+    animation-duration:22s;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .section::after{animation:none!important}
+}
