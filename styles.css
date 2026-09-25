@@ -1294,3 +1294,272 @@ img,svg{display:block;max-width:100%}
     .hero{min-height:max(100dvh,790px)}
   }
 }
+
+
+/* === Mobile header + hero correction =======================================
+   Keep the first screen uncluttered, then preserve BOTH star + label in the
+   compact mobile header. Contact remains a real visible button. */
+@media (max-width:820px){
+  html{scroll-padding-top:128px}
+
+  .morph-header{
+    height:122px;
+    background:linear-gradient(180deg,rgba(4,9,14,.98),rgba(4,9,14,.94));
+  }
+  .morph-brand{
+    top:25px;
+    left:16px;
+  }
+  .morph-brand__name{font-size:15px}
+  .morph-brand__role{font-size:6.5px;letter-spacing:.14em}
+  .morph-contact{
+    top:25px;
+    right:14px;
+    width:auto;
+    min-width:0;
+    height:36px;
+    padding:0 11px;
+    border-radius:999px;
+    font-size:8.5px;
+    line-height:1;
+    white-space:nowrap;
+  }
+  .morph-contact::after{content:none}
+
+  /* During the hero, the clean M is made only by the five bright stars.
+     The names reappear under each star as soon as they become the header. */
+  .star-link{
+    width:36px;
+    min-width:36px;
+    height:40px;
+    min-height:40px;
+    display:block;
+  }
+  .star-link__star{
+    position:absolute;
+    left:0;
+    top:2px;
+    width:36px;
+    height:36px;
+  }
+  .star-link__label{
+    position:absolute;
+    left:50%;
+    top:38px;
+    width:64px;
+    max-width:64px;
+    padding:0;
+    transform:translateX(-50%);
+    text-align:center;
+    white-space:normal;
+    line-height:1.02;
+    font-size:7.5px;
+    letter-spacing:-.01em;
+    background:transparent;
+    border:0;
+    box-shadow:none;
+    text-shadow:0 2px 7px rgba(0,0,0,.95);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .18s ease;
+  }
+  .header-transitioning .star-link__label{opacity:0}
+  .header-ready .star-link__label{
+    display:block!important;
+    opacity:.92;
+    background:transparent;
+    padding:0;
+  }
+  .header-ready .star-link,
+  .header-ready .star-link:nth-child(4),
+  .header-ready .star-link:nth-child(5){
+    display:block;
+    flex-direction:unset;
+    text-align:center;
+  }
+
+  .hero{
+    min-height:max(100svh,860px);
+  }
+  .hero__content{
+    width:min(620px,calc(100% - 36px));
+    max-width:none;
+    margin:0;
+    padding:82px 0 0;
+    margin-inline:auto;
+  }
+  .hero h1{
+    margin:13px 0 16px;
+    font-size:clamp(58px,15vw,82px);
+    line-height:.84;
+  }
+  .hero__tagline{
+    max-width:520px;
+    margin-bottom:16px;
+    font-size:clamp(20px,4.8vw,27px);
+    line-height:1.08;
+  }
+  .hero__copy{
+    max-width:520px;
+    font-size:12.5px;
+    line-height:1.58;
+  }
+  .hero__actions{
+    display:flex;
+    flex-wrap:wrap;
+    width:auto;
+    max-width:520px;
+    margin-top:18px;
+    gap:9px;
+  }
+  .hero__actions .button{
+    width:auto;
+    min-height:42px;
+    padding:0 14px;
+    font-size:9.5px;
+  }
+
+  .hero__constellation-note{
+    left:50%;
+    right:auto;
+    top:auto;
+    bottom:132px;
+    transform:translateX(-50%);
+    width:max-content;
+    max-width:70vw;
+    text-align:center;
+    font-size:7px;
+    letter-spacing:.12em;
+    color:#71838b;
+  }
+
+  .hero__meta{
+    left:20px;
+    right:20px;
+    bottom:20px;
+    gap:10px;
+  }
+}
+
+@media (max-width:480px){
+  html{scroll-padding-top:126px}
+
+  .morph-header{height:120px}
+  .morph-brand{left:12px}
+  .morph-brand__name{font-size:14px}
+  .morph-brand__role{font-size:6px}
+  .morph-contact{
+    right:10px;
+    height:34px;
+    padding:0 9px;
+    font-size:8px;
+  }
+
+  .star-link{
+    width:32px;
+    min-width:32px;
+    height:38px;
+  }
+  .star-link__star{
+    width:32px;
+    height:32px;
+    left:0;
+    top:2px;
+    --ray-x:25px;
+    --ray-y:29px;
+    --diag:15px;
+    --core:4.5px;
+    --halo:20px;
+  }
+  .star-link__label{
+    top:34px;
+    width:62px;
+    max-width:62px;
+    font-size:7px;
+  }
+
+  .hero{
+    min-height:max(100svh,820px);
+    background-position:68% center;
+  }
+  .hero__content{
+    width:calc(100% - 30px);
+    padding-top:72px;
+  }
+  .eyebrow{font-size:7.5px}
+  .hero h1{
+    font-size:clamp(52px,16vw,68px);
+    margin:11px 0 14px;
+  }
+  .hero__tagline{
+    font-size:clamp(18px,5.2vw,22px);
+    margin-bottom:14px;
+  }
+  .hero__copy{
+    max-width:96%;
+    font-size:11.8px;
+    line-height:1.52;
+  }
+  .hero__actions{
+    margin-top:15px;
+    gap:8px;
+  }
+  .hero__actions .button{
+    min-height:40px;
+    padding:0 11px;
+    font-size:8.7px;
+  }
+
+  /* The constellation owns the lower half of the first screen on phones. */
+  .hero__meta{display:none}
+  .hero__constellation-note{
+    bottom:84px;
+    font-size:6.5px;
+  }
+}
+
+@media (max-width:360px){
+  .hero__content{
+    width:calc(100% - 24px);
+    padding-top:68px;
+  }
+  .hero h1{font-size:50px}
+  .hero__tagline{font-size:18px}
+  .hero__copy{font-size:11.3px}
+  .hero__actions .button{
+    min-height:38px;
+    font-size:8.2px;
+    padding:0 9px;
+  }
+  .morph-brand__role{display:none}
+  .morph-contact{font-size:7.5px;padding:0 8px}
+  .star-link__label{font-size:6.6px;width:58px;max-width:58px}
+}
+
+/* Short phones get a slightly tighter copy block rather than overlapping the M. */
+@media (max-width:480px) and (max-height:720px){
+  .hero__content{padding-top:62px}
+  .hero h1{font-size:50px}
+  .hero__tagline{font-size:18px;margin-bottom:11px}
+  .hero__copy{font-size:11px;line-height:1.45}
+  .hero__actions{margin-top:12px}
+  .hero__actions .button{min-height:37px}
+  .hero__constellation-note{display:none}
+}
+
+@supports (height:100dvh){
+  @media (max-width:820px){
+    .hero{min-height:max(100dvh,860px)}
+  }
+  @media (max-width:480px){
+    .hero{min-height:max(100dvh,820px)}
+  }
+}
+
+/* On touch screens keep the core twinkle too; transform+opacity remains cheap. */
+@media (hover:none), (pointer:coarse){
+  .star-link__star i{
+    animation:starCorePulse var(--pulse-duration,4.4s) ease-in-out infinite;
+    animation-delay:var(--pulse-delay,0s);
+  }
+}
