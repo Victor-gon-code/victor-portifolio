@@ -108,9 +108,9 @@
     // First the four segments are literally drawn by the scroll, revealing the M.
     // When the stars begin to rise into the header, the guide remains connected
     // but fades so it never competes with the content.
-    const drawT = smoothstep(clamp((progress - 0.015) / 0.25, 0, 1));
-    const departT = smoothstep(clamp((progress - 0.31) / 0.57, 0, 1));
-    const opacity = mix(0.0, 0.56, drawT) * (1 - departT) + (0.10 * departT);
+    const drawT = smoothstep(clamp((progress - 0.02) / 0.24, 0, 1));
+    const departT = smoothstep(clamp((progress - 0.30) / 0.54, 0, 1));
+    const opacity = mix(0.0, 0.42, drawT) * (1 - departT);
 
     linePaths.forEach((path, index) => {
       const a = currentPositions[index];
@@ -141,8 +141,8 @@
     const formed = mPositions();
     const end = targetPositions();
 
-    const formT = smoothstep(clamp((raw - 0.015) / 0.25, 0, 1));
-    const headerT = smoothstep(clamp((raw - 0.31) / 0.57, 0, 1));
+    const formT = smoothstep(clamp((raw - 0.02) / 0.24, 0, 1));
+    const headerT = smoothstep(clamp((raw - 0.30) / 0.54, 0, 1));
 
     currentPositions = starLinks.map((link, index) => {
       const mx = mix(rest[index][0], formed[index][0], formT);
@@ -181,7 +181,6 @@
   window.addEventListener("resize", () => {
     viewport = { width: window.innerWidth, height: window.innerHeight };
     requestMorphUpdate();
-    resizeStars();
   }, { passive: true });
 
   starLinks.forEach((link) => {
@@ -235,88 +234,8 @@
 
   sections.filter((section) => section.id !== "inicio").forEach((section) => activeObserver.observe(section));
 
-  // Star field: canvas only; capped density and DPR keep it inexpensive on mobile.
-  const canvas = document.getElementById("starfield");
-  const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
-  let stars = [];
-  let canvasWidth = 0;
-  let canvasHeight = 0;
-  let lastFrame = 0;
-
-  function seededRandom(seed) {
-    let t = seed + 0x6D2B79F5;
-    return () => {
-      t += 0x6D2B79F5;
-      let n = t;
-      n = Math.imul(n ^ (n >>> 15), n | 1);
-      n ^= n + Math.imul(n ^ (n >>> 7), n | 61);
-      return ((n ^ (n >>> 14)) >>> 0) / 4294967296;
-    };
-  }
-
-  function buildStars() {
-    if (!ctx) return;
-    const random = seededRandom(240926);
-    const count = viewport.width <= 560 ? 44 : viewport.width <= 900 ? 62 : 88;
-
-    stars = Array.from({ length: count }, () => {
-      const depth = 0.25 + random() * 0.75;
-      return {
-        x: random() * canvasWidth,
-        y: random() * canvasHeight,
-        radius: 0.16 + random() * (depth * 0.48),
-        alpha: 0.07 + random() * 0.24,
-        phase: random() * Math.PI * 2,
-        speed: 0.0003 + random() * 0.00075,
-        drift: (random() - 0.5) * 0.025
-      };
-    });
-  }
-
-  function resizeStars() {
-    if (!canvas || !ctx) return;
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    canvasWidth = Math.max(1, window.innerWidth);
-    canvasHeight = Math.max(1, window.innerHeight);
-    canvas.width = Math.floor(canvasWidth * dpr);
-    canvas.height = Math.floor(canvasHeight * dpr);
-    canvas.style.width = canvasWidth + "px";
-    canvas.style.height = canvasHeight + "px";
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    buildStars();
-    drawStars(performance.now());
-  }
-
-  function drawStars(time) {
-    if (!ctx) return;
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
-    stars.forEach((star) => {
-      const pulse = reducedMotion ? 0 : Math.sin(time * star.speed + star.phase) * 0.045;
-      const alpha = clamp(star.alpha + pulse, 0.05, 0.34);
-      const scrollShift = reducedMotion ? 0 : (window.scrollY * star.drift) % canvasHeight;
-      let y = star.y - scrollShift;
-      if (y < -4) y += canvasHeight + 8;
-      if (y > canvasHeight + 4) y -= canvasHeight + 8;
-
-      ctx.beginPath();
-      ctx.arc(star.x, y, star.radius, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(216,232,240," + alpha.toFixed(3) + ")";
-      ctx.fill();
-    });
-  }
-
-  function animateStars(time) {
-    if (!ctx || reducedMotion) return;
-    if (time - lastFrame >= 33) {
-      drawStars(time);
-      lastFrame = time;
-    }
-    requestAnimationFrame(animateStars);
-  }
-
-  resizeStars();
-  if (!reducedMotion) requestAnimationFrame(animateStars);
+  // The hero background is a single approved static image.
+  // Only the five interactive navigation stars are animated.
 
   requestMorphUpdate();
 })();
