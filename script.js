@@ -258,17 +258,16 @@
     const random = seededRandom(240926);
     const count = viewport.width <= 560 ? 44 : viewport.width <= 900 ? 62 : 88;
 
-    stars = Array.from({ length: count }, (_, index) => {
+    stars = Array.from({ length: count }, () => {
       const depth = 0.25 + random() * 0.75;
       return {
         x: random() * canvasWidth,
         y: random() * canvasHeight,
-        radius: 0.25 + random() * (depth * 1.18),
-        alpha: 0.16 + random() * 0.57,
+        radius: 0.16 + random() * (depth * 0.48),
+        alpha: 0.07 + random() * 0.24,
         phase: random() * Math.PI * 2,
-        speed: 0.00045 + random() * 0.0012,
-        drift: (random() - 0.5) * 0.045,
-        green: index % 17 === 0
+        speed: 0.0003 + random() * 0.00075,
+        drift: (random() - 0.5) * 0.025
       };
     });
   }
@@ -292,8 +291,8 @@
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
     stars.forEach((star) => {
-      const pulse = reducedMotion ? 0 : Math.sin(time * star.speed + star.phase) * 0.18;
-      const alpha = clamp(star.alpha + pulse, 0.08, 0.82);
+      const pulse = reducedMotion ? 0 : Math.sin(time * star.speed + star.phase) * 0.045;
+      const alpha = clamp(star.alpha + pulse, 0.05, 0.34);
       const scrollShift = reducedMotion ? 0 : (window.scrollY * star.drift) % canvasHeight;
       let y = star.y - scrollShift;
       if (y < -4) y += canvasHeight + 8;
@@ -301,20 +300,8 @@
 
       ctx.beginPath();
       ctx.arc(star.x, y, star.radius, 0, Math.PI * 2);
-      ctx.fillStyle = star.green
-        ? "rgba(96,245,196," + alpha.toFixed(3) + ")"
-        : "rgba(220,241,247," + alpha.toFixed(3) + ")";
+      ctx.fillStyle = "rgba(216,232,240," + alpha.toFixed(3) + ")";
       ctx.fill();
-
-      if (star.radius > 1.05) {
-        ctx.beginPath();
-        ctx.arc(star.x, y, star.radius * 4.8, 0, Math.PI * 2);
-        const glow = ctx.createRadialGradient(star.x, y, 0, star.x, y, star.radius * 4.8);
-        glow.addColorStop(0, star.green ? "rgba(95,245,196,.11)" : "rgba(197,231,245,.08)");
-        glow.addColorStop(1, "rgba(0,0,0,0)");
-        ctx.fillStyle = glow;
-        ctx.fill();
-      }
     });
   }
 
