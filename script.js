@@ -21,53 +21,50 @@
   let currentPositions = [];
   let rafPending = false;
 
-  // The hero starts with five bright navigation stars that only hint at an M.
-  // During the first part of the scroll they settle into the true M, then rise
-  // and become the persistent header navigation.
+  // Positions measured from the user's marked reference image (1672 × 941).
+  // The desktop mapping accounts for background-size: cover, so each clickable
+  // star stays on the chosen point even if the browser aspect ratio changes.
+  const HERO_IMAGE = { width: 1672, height: 941 };
+  const HERO_POINTS = [
+    [974.8 / 1672, 445.2 / 941],   // Sobre mim — lower-left stroke of the M
+    [1148.1 / 1672, 214.1 / 941],  // Projetos — upper-left peak
+    [1291.7 / 1672, 347.8 / 941],  // Como funciona — center valley
+    [1473.2 / 1672, 244.1 / 941],  // Informações — upper-right peak
+    [1501.0 / 1672, 545.2 / 941]   // Contato — lower-right stroke
+  ];
+
+  function heroImagePoint(nx, ny) {
+    const w = viewport.width;
+    const h = viewport.height;
+    const scale = Math.max(w / HERO_IMAGE.width, h / HERO_IMAGE.height);
+    const renderedWidth = HERO_IMAGE.width * scale;
+    const renderedHeight = HERO_IMAGE.height * scale;
+    const offsetX = (w - renderedWidth) / 2;
+    const offsetY = (h - renderedHeight) / 2;
+    return [offsetX + nx * renderedWidth, offsetY + ny * renderedHeight];
+  }
+
   function restingPositions() {
     const w = viewport.width;
     const h = viewport.height;
 
     if (w <= 820) {
       return [
-        [w * 0.17, h * 0.69],
-        [w * 0.34, h * 0.56],
-        [w * 0.50, h * 0.66],
-        [w * 0.67, h * 0.55],
+        [w * 0.16, h * 0.69],
+        [w * 0.33, h * 0.57],
+        [w * 0.50, h * 0.67],
+        [w * 0.68, h * 0.56],
         [w * 0.84, h * 0.70]
       ];
     }
 
-    return [
-      [w * 0.59, h * 0.55],
-      [w * 0.67, h * 0.30],
-      [w * 0.75, h * 0.47],
-      [w * 0.83, h * 0.29],
-      [w * 0.91, h * 0.56]
-    ];
+    return HERO_POINTS.map(([x, y]) => heroImagePoint(x, y));
   }
 
   function mPositions() {
-    const w = viewport.width;
-    const h = viewport.height;
-
-    if (w <= 820) {
-      return [
-        [w * 0.17, h * 0.70],
-        [w * 0.34, h * 0.52],
-        [w * 0.50, h * 0.66],
-        [w * 0.67, h * 0.52],
-        [w * 0.84, h * 0.70]
-      ];
-    }
-
-    return [
-      [w * 0.59, h * 0.56],
-      [w * 0.67, h * 0.29],
-      [w * 0.75, h * 0.48],
-      [w * 0.83, h * 0.29],
-      [w * 0.91, h * 0.56]
-    ];
+    // The marked points already describe the discreet M; scrolling first draws
+    // the connecting lines, then the same stars rise into the header.
+    return restingPositions();
   }
 
   function targetPositions() {
@@ -107,7 +104,7 @@
     // for a short moment before the same stars reorganize into the header.
     const formT = smoothstep(clamp(progress / 0.28, 0, 1));
     const departT = smoothstep(clamp((progress - 0.28) / 0.72, 0, 1));
-    const opacity = mix(0.075, 0.72, formT) * (1 - departT) + (0.045 * departT);
+    const opacity = mix(0.025, 0.54, formT) * (1 - departT) + (0.035 * departT);
 
     linePaths.forEach((path, index) => {
       const a = currentPositions[index];
