@@ -54,13 +54,25 @@
     const w = viewport.width;
     const h = viewport.height;
 
+    // Mobile gets a compact M placed below the hero copy, away from the CTA.
+    // Tablet keeps a wider M, while desktop continues to use the artwork points.
+    if (w <= 480) {
+      return [
+        [w * 0.14, h * 0.72],
+        [w * 0.31, h * 0.62],
+        [w * 0.50, h * 0.71],
+        [w * 0.69, h * 0.61],
+        [w * 0.86, h * 0.72]
+      ];
+    }
+
     if (w <= 820) {
       return [
-        [w * 0.16, h * 0.69],
-        [w * 0.33, h * 0.57],
-        [w * 0.50, h * 0.67],
+        [w * 0.14, h * 0.70],
+        [w * 0.32, h * 0.57],
+        [w * 0.50, h * 0.68],
         [w * 0.68, h * 0.56],
-        [w * 0.84, h * 0.70]
+        [w * 0.86, h * 0.70]
       ];
     }
 
@@ -75,8 +87,16 @@
 
   function targetPositions() {
     const w = viewport.width;
+
+    // Phones use a dedicated second row in the compact header. Tablet keeps
+    // the same idea with slightly tighter spacing; desktop stays unchanged.
+    if (w <= 480) {
+      const xs = [0.12, 0.31, 0.50, 0.69, 0.88];
+      return xs.map((x) => [w * x, 84]);
+    }
+
     if (w <= 820) {
-      const xs = [0.09, 0.29, 0.49, 0.69, 0.89];
+      const xs = [0.18, 0.34, 0.50, 0.66, 0.82];
       return xs.map((x) => [w * x, 82]);
     }
 
@@ -89,7 +109,9 @@
 
   function morphProgress() {
     if (reducedMotion) return window.scrollY > 24 ? 1 : 0;
-    const distance = Math.max(viewport.height * 0.72, 520);
+    const factor = viewport.width <= 480 ? 0.56 : viewport.width <= 820 ? 0.64 : 0.72;
+    const minimum = viewport.width <= 480 ? 420 : viewport.width <= 820 ? 470 : 520;
+    const distance = Math.max(viewport.height * factor, minimum);
     return clamp(window.scrollY / distance, 0, 1);
   }
 
@@ -235,7 +257,7 @@
       if (!target) return;
 
       event.preventDefault();
-      const offset = viewport.width <= 820 ? 108 : 82;
+      const offset = viewport.width <= 480 ? 104 : viewport.width <= 820 ? 106 : 82;
       const top = target.getBoundingClientRect().top + window.scrollY - offset + 1;
 
       window.scrollTo({
