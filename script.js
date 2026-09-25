@@ -210,6 +210,13 @@
 
   function requestMorphUpdate() {
     if (rafPending) return;
+
+    // Once the hero morph has fully finished, scrolling the rest of the page
+    // does not schedule animation frames. Scrolling back toward the hero
+    // automatically resumes the morph.
+    const raw = morphProgress();
+    if (!geometryDirty && raw >= 1 && lastMorphProgress >= 1) return;
+
     rafPending = true;
     requestAnimationFrame(updateMorph);
   }
