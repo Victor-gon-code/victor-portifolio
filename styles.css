@@ -112,11 +112,11 @@ img,svg{display:block;max-width:100%}
 }
 .constellation-lines path{
   fill:none;
-  stroke:rgba(196,241,238,.42);
-  stroke-width:.78;
+  stroke:rgba(205,239,246,.38);
+  stroke-width:.72;
   vector-effect:non-scaling-stroke;
-  filter:drop-shadow(0 0 4px rgba(85,231,203,.20));
-  stroke-dasharray:2 8;
+  filter:drop-shadow(0 0 3px rgba(116,217,228,.16));
+  stroke-dasharray:4 10;
 }
 
 .constellation-nav{position:absolute;inset:0}
@@ -209,24 +209,24 @@ img,svg{display:block;max-width:100%}
 
 /* Five related stars, each with its own light signature. */
 .star-link:nth-child(1) .star-link__star{
-  --star-color:#efffff;--star-glow:#59e8d5;--ray-x:31px;--ray-y:46px;--diag:19px;--core:5px;--halo:28px;
-  animation-duration:4.4s;
+  --star-color:#fff1c9;--star-glow:#ffae62;--ray-x:46px;--ray-y:58px;--diag:22px;--core:6px;--halo:35px;
+  animation-duration:4.5s;
 }
 .star-link:nth-child(2) .star-link__star{
-  --star-color:#ffffff;--star-glow:#83d9ff;--ray-x:48px;--ray-y:58px;--diag:31px;--core:7px;--halo:38px;
-  animation-duration:3.6s;animation-delay:-1.1s;
+  --star-color:#ecfbff;--star-glow:#55cfff;--ray-x:58px;--ray-y:72px;--diag:32px;--core:7px;--halo:43px;
+  animation-duration:3.7s;animation-delay:-1.1s;
 }
 .star-link:nth-child(3) .star-link__star{
-  --star-color:#fff7df;--star-glow:#a8f7ed;--ray-x:34px;--ray-y:34px;--diag:29px;--core:6px;--halo:30px;
-  animation-duration:4.8s;animation-delay:-2.3s;
+  --star-color:#e8fff9;--star-glow:#51f1cd;--ray-x:35px;--ray-y:50px;--diag:36px;--core:6px;--halo:38px;
+  animation-duration:4.9s;animation-delay:-2.3s;
 }
 .star-link:nth-child(4) .star-link__star{
-  --star-color:#e8ffff;--star-glow:#42ffd0;--ray-x:56px;--ray-y:35px;--diag:24px;--core:6px;--halo:34px;
-  animation-duration:4.1s;animation-delay:-.7s;
+  --star-color:#faeaff;--star-glow:#d66dff;--ray-x:62px;--ray-y:64px;--diag:28px;--core:7px;--halo:44px;
+  animation-duration:4.15s;animation-delay:-.7s;
 }
 .star-link:nth-child(5) .star-link__star{
-  --star-color:#f3f1ff;--star-glow:#8eb8ff;--ray-x:39px;--ray-y:51px;--diag:17px;--core:6px;--halo:36px;
-  animation-duration:3.9s;animation-delay:-1.8s;
+  --star-color:#eef2ff;--star-glow:#6b8cff;--ray-x:42px;--ray-y:70px;--diag:20px;--core:6px;--halo:42px;
+  animation-duration:3.95s;animation-delay:-1.8s;
 }
 .star-link:hover .star-link__star,
 .star-link.is-active .star-link__star{
@@ -711,4 +711,14 @@ img,svg{display:block;max-width:100%}
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;transition-delay:0ms!important}
   .reveal{opacity:1;transform:none}
+}
+
+.header-ready .star-link__star{
+  transform:scale(.78);
+  filter:brightness(1.04) drop-shadow(0 0 8px var(--star-glow));
+}
+.header-ready .star-link:hover .star-link__star,
+.header-ready .star-link.is-active .star-link__star{
+  transform:scale(.86);
+  filter:brightness(1.22) drop-shadow(0 0 12px var(--star-glow));
 }
