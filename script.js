@@ -88,11 +88,16 @@
   }
 
   function setNavPosition(link, x, y, scale) {
-    const width = link.offsetWidth || 90;
-    const height = link.offsetHeight || 24;
+    const star = link.querySelector(".star-link__star");
+    const starCenterX = star ? star.offsetLeft + star.offsetWidth / 2 : (link.offsetWidth || 90) / 2;
+    const starCenterY = star ? star.offsetTop + star.offsetHeight / 2 : (link.offsetHeight || 24) / 2;
+
+    // Anchor the transform to the actual star, not to the text label, so the
+    // luminous point lands exactly on the coordinates marked in the artwork.
+    link.style.transformOrigin = starCenterX.toFixed(2) + "px " + starCenterY.toFixed(2) + "px";
     link.style.transform =
-      "translate3d(" + (x - width / 2).toFixed(2) + "px," +
-      (y - height / 2).toFixed(2) + "px,0) scale(" + scale.toFixed(3) + ")";
+      "translate3d(" + (x - starCenterX).toFixed(2) + "px," +
+      (y - starCenterY).toFixed(2) + "px,0) scale(" + scale.toFixed(3) + ")";
   }
 
   function updateLines(progress) {
