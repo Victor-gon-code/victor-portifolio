@@ -590,10 +590,17 @@ img,svg{display:block;max-width:100%}
 
 .reveal{
   opacity:0;
-  transform:translateY(28px);
-  transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1);
+  transform:translateY(18px);
+  will-change:opacity,transform;
+  transition:
+    opacity .62s cubic-bezier(.2,.8,.2,1) var(--reveal-delay,0ms),
+    transform .62s cubic-bezier(.2,.8,.2,1) var(--reveal-delay,0ms);
 }
-.reveal.is-visible{opacity:1;transform:none}
+.reveal.is-visible{
+  opacity:1;
+  transform:none;
+  will-change:auto;
+}
 
 @keyframes hintFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 @keyframes starCorePulse{
@@ -1422,17 +1429,9 @@ img,svg{display:block;max-width:100%}
   line-height:1.72;
 }
 
-/* Below-the-fold sections are expensive mainly because of large gradients.
-   Let the browser skip their paint/layout until they approach the viewport. */
-@supports (content-visibility:auto){
-  .section--projects,
-  .section--services,
-  .section--process,
-  .section--contact{
-    content-visibility:auto;
-    contain-intrinsic-size:900px;
-  }
-}
+/* Keep section layout available while scrolling. Whole-section
+   content-visibility caused visible "pop in" on some mobile browsers.
+   Heavy media still uses native lazy loading, so the page stays lightweight. */
 
 @media (max-width:900px){
   .project-feature--showcase{grid-template-columns:1fr}
@@ -1500,5 +1499,30 @@ img,svg{display:block;max-width:100%}
   .button:hover,
   .project-mini:hover{
     transform:none!important;
+  }
+}
+
+
+/* === Scroll-flow refinement · 2026-09-26 ==================================
+   Stable morph geometry + progressive content reveal. */
+.header-transitioning .star-link{
+  transition:color .18s linear;
+}
+.header-transitioning .star-link__star{
+  transition:filter .18s linear,transform .18s linear;
+}
+
+@media (max-width:820px){
+  /* Labels move with their stars instead of disappearing/reappearing mid-path. */
+  .header-transitioning .star-link__label{
+    opacity:.88!important;
+    transition:opacity .16s linear!important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .reveal{
+    transition-delay:0ms!important;
+    will-change:auto;
   }
 }
