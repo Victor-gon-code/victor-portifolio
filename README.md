@@ -1,44 +1,49 @@
-# Victor Portifólio
+# Victor Eduardo — Portfólio
 
-Landing/portfólio pessoal de **Victor Eduardo**, criada como uma experiência visual leve, responsiva e orientada a conversão.
+Portfólio profissional de **Victor Eduardo**, desenvolvedor web focado em sites, sistemas, SaaS e produtos digitais.
 
-## Conceito
+## Objetivo
 
-A abertura usa uma constelação de cinco pontos em um **M discreto**. Cada estrela representa uma área do site:
+O site foi pensado para apresentar trabalho real, explicar serviços com clareza e facilitar o contato de potenciais clientes sem depender de frameworks ou bibliotecas pesadas.
 
-- Sobre mim
-- Projetos
-- Como funciona
-- Informações
-- Contato
+A experiência visual usa uma constelação de cinco pontos que se transforma na navegação principal durante o scroll.
 
-Quando o visitante rola a página, as estrelas se conectam, o M ganha definição por um instante e os pontos sobem até se reorganizarem no cabeçalho. Assim, a própria constelação da hero vira a navegação persistente.
+## Projeto em destaque
 
-## Implementação
+### Tá na Rede
+
+Produto SaaS esportivo criado do zero para conectar jogadores, partidas, times, grupos e arenas.
+
+O portfólio apresenta o Tá na Rede como estudo de caso real, incluindo recursos já implementados, tecnologias e telas do produto.
+
+## Stack do portfólio
 
 - HTML sem framework
-- CSS responsivo e sem dependências externas
+- CSS responsivo
 - JavaScript nativo
-- Canvas leve para o céu de estrelas
-- Animação ligada ao scroll com requestAnimationFrame
-- DPR limitado e starfield a ~30fps
+- IntersectionObserver
+- requestAnimationFrame para a navegação animada
 - suporte a `prefers-reduced-motion`
-- IntersectionObserver para animações e navegação ativa
-- sem imagens pesadas na abertura
+- SEO básico, Open Graph, Twitter Card e JSON-LD
+- layout otimizado para desktop, tablet e mobile
+
+## Estrutura
+
+- `index.html` — conteúdo, semântica e SEO
+- `styles.css` — identidade visual e responsividade
+- `script.js` — constelação, navegação e interações
+- `assets/` — imagens e materiais visuais
+- `favicon.svg` — favicon
+- `robots.txt` e `sitemap.xml` — indexação
 
 ## Executar localmente
-
-Abra `index.html` diretamente no navegador ou use um servidor estático:
 
 ```bash
 python -m http.server 8000
 ```
 
-Depois acesse `http://localhost:8000`.
+Depois abra `http://localhost:8000`.
 
-## Estrutura
+## Produção
 
-- `index.html` — conteúdo e SEO
-- `styles.css` — identidade visual e responsividade
-- `script.js` — constelação, scroll, navegação e starfield
-- `favicon.svg` — favicon inspirado no M da constelação
+Domínio principal previsto: **victoreduardodev.tech**
