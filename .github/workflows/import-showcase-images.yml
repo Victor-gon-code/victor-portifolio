@@ -29,9 +29,10 @@ jobs:
           cwebp -quiet -q 92 -m 6 /tmp/tanarede-home.png -o assets/tanarede-home.webp
           cwebp -quiet -q 92 -m 6 /tmp/tanarede-perfil.png -o assets/tanarede-perfil.webp
 
-      - name: Verify dimensions
+      - name: Verify generated images
         run: |
-          identify assets/tanarede-home.webp assets/tanarede-perfil.webp
+          webpinfo assets/tanarede-home.webp | grep -E "Width|Height"
+          webpinfo assets/tanarede-perfil.webp | grep -E "Width|Height"
 
       - name: Clean temporary staging files
         run: |
