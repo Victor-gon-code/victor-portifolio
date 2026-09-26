@@ -23,8 +23,13 @@
 
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
   const smoothstep = (t) => t * t * (3 - 2 * t);
+  const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
   const mix = (a, b, t) => a + (b - a) * t;
 
+  // Keep the hero navigation geometry stable on phones. Mobile browsers change
+  // innerHeight while their URL bar collapses/expands during scroll; using that
+  // changing height made the stars appear to dip before heading to the header.
+  let stableMobileHeight = window.innerHeight;
   let viewport = { width: window.innerWidth, height: window.innerHeight };
   let currentPositions = [];
   let rafPending = false;
@@ -134,7 +139,22 @@
   }
 
   function refreshGeometry() {
-    viewport = { width: window.innerWidth, height: window.innerHeight };
+    const width = window.innerWidth;
+    const rawHeight = window.innerHeight;
+    const widthChanged = Math.abs(width - viewport.width) > 24;
+
+    // A meaningful width change means resize/orientation change, so refreshing
+    // the stable mobile height is correct. Vertical-only mobile resizes are
+    // usually just browser chrome and must not move the constellation.
+    if (width > 820 || widthChanged) {
+      stableMobileHeight = rawHeight;
+    }
+
+    viewport = {
+      width,
+      height: width <= 820 ? stableMobileHeight : rawHeight
+    };
+
     cachedRest = restingPositions();
     cachedTargets = targetPositions();
     measureStarCenters();
@@ -191,7 +211,7 @@
     rafPending = false;
 
     const raw = morphProgress();
-    const layoutMode = raw >= 0.80 ? "header" : "hero";
+    const layoutMode = raw >= 0.76 ? "header" : "hero";
 
     // Once the morph is capped, page scrolling no longer rewrites identical
     // transforms on every frame. Resize or layout-mode changes still force it.
@@ -199,11 +219,12 @@
       return;
     }
 
-    const formed = raw >= 0.04 && raw < 0.32;
-    const transitioning = raw >= 0.04 && raw < 0.80;
-    const headerReady = raw >= 0.80;
+    const transitioning = raw > 0.002 && raw < 0.76;
+    const headerReady = raw >= 0.76;
 
-    document.body.classList.toggle("constellation-formed", formed);
+    // There is no intermediate "formation" stage anymore: as soon as scroll
+    // starts, every star travels on one direct path toward its final slot.
+    document.body.classList.remove("constellation-formed");
     document.body.classList.toggle("header-transitioning", transitioning);
     document.body.classList.toggle("header-ready", headerReady);
 
@@ -215,7 +236,9 @@
       measureStarCenters();
     }
 
-    const alignT = smoothstep(clamp((raw - 0.015) / 0.80, 0, 1));
+    // Direct, responsive trajectory: starts immediately and finishes before
+    // the header layout switches, avoiding a late snap/re-measure.
+    const alignT = easeOutCubic(clamp(raw / 0.72, 0, 1));
 
     currentPositions = starLinks.map((link, index) => {
       const x = mix(cachedRest[index][0], cachedTargets[index][0], alignT);
@@ -257,6 +280,12 @@
 
   window.addEventListener("scroll", requestMorphUpdate, { passive: true });
   window.addEventListener("resize", () => {
+    const widthChanged = Math.abs(window.innerWidth - viewport.width) > 2;
+
+    // Ignore the vertical-only resize fired by mobile browser chrome while the
+    // user scrolls. Orientation changes still refresh because width changes.
+    if (window.innerWidth <= 820 && !widthChanged) return;
+
     geometryDirty = true;
     lastMorphProgress = -1;
     requestMorphUpdate();
@@ -308,9 +337,22 @@
       }
       revealObserver.unobserve(entry.target);
     });
-  }, { threshold: 0.16, rootMargin: "0px 0px -7% 0px" });
+  }, {
+    // Start a little before the element reaches the viewport. This keeps the
+    // page flowing naturally instead of revealing a whole section at once.
+    threshold: 0.01,
+    rootMargin: "140px 0px 40px 0px"
+  });
 
-  document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+  const revealElements = Array.from(document.querySelectorAll(".reveal"));
+
+  // Small stagger only for sibling cards/steps. Sections themselves remain
+  // independent, so scrolling progressively reveals content instead of waiting.
+  document.querySelectorAll(".services-grid .reveal, .process-track .reveal").forEach((element, index) => {
+    element.style.setProperty("--reveal-delay", Math.min(index * 65, 195) + "ms");
+  });
+
+  revealElements.forEach((element) => revealObserver.observe(element));
   if (processTrack) revealObserver.observe(processTrack);
 
   const activeObserver = new IntersectionObserver((entries) => {
