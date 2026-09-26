@@ -7,12 +7,34 @@
   <meta name="color-scheme" content="dark">
   <meta name="description" content="Victor Eduardo — desenvolvedor web. Sites, sistemas e produtos digitais sob medida, com design, performance e tecnologia.">
   <meta property="og:title" content="Victor Eduardo — Desenvolvedor Web">
-  <meta property="og:description" content="Conectando ideias. Criando produtos digitais.">
+  <meta property="og:description" content="Sites, sistemas e produtos digitais sob medida — do conceito ao produto no ar.">
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Victor Eduardo">
+  <meta property="og:url" content="https://victoreduardodev.tech/">
+  <meta property="og:image" content="https://victoreduardodev.tech/assets/hero-final.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Victor Eduardo — Desenvolvedor Web">
+  <meta name="twitter:description" content="Sites, sistemas e produtos digitais sob medida — do conceito ao produto no ar.">
+  <meta name="twitter:image" content="https://victoreduardodev.tech/assets/hero-final.webp">
+  <link rel="canonical" href="https://victoreduardodev.tech/">
   <title>Victor Eduardo — Desenvolvedor Web</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" as="image" href="assets/hero-final.webp" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=20260925-mobile5">
+  <link rel="stylesheet" href="styles.css?v=20260926-pro1">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Victor Eduardo",
+    "url": "https://victoreduardodev.tech/",
+    "jobTitle": "Desenvolvedor Web",
+    "sameAs": [
+      "https://github.com/Victor-gon-code"
+    ],
+    "knowsAbout": ["Desenvolvimento Web", "Sistemas Web", "SaaS", "Automação", "UX", "Django", "Python"]
+  }
+  </script>
 </head>
 <body>
   <div id="morph-shell" class="morph-shell" aria-label="Navegação principal">
@@ -40,13 +62,13 @@
         <span class="star-link__star"><i></i></span>
         <span class="star-link__label">Projetos</span>
       </a>
-      <a class="star-link" data-star="2" data-target="processo" href="#processo">
+      <a class="star-link" data-star="2" data-target="servicos" href="#servicos">
         <span class="star-link__star"><i></i></span>
-        <span class="star-link__label">Como funciona</span>
+        <span class="star-link__label">Serviços</span>
       </a>
-      <a class="star-link" data-star="3" data-target="informacoes" href="#informacoes">
+      <a class="star-link" data-star="3" data-target="processo" href="#processo">
         <span class="star-link__star"><i></i></span>
-        <span class="star-link__label">Informações</span>
+        <span class="star-link__label">Processo</span>
       </a>
       <a class="star-link" data-star="4" data-target="contato" href="#contato">
         <span class="star-link__star"><i></i></span>
@@ -71,8 +93,8 @@
         </p>
 
         <div class="hero__actions">
-          <a class="button button--primary" href="#projetos">Conhecer meu trabalho <span>↗</span></a>
-          <a class="button button--ghost" href="#processo">Como funciona</a>
+          <a class="button button--primary" href="#contato">Falar sobre um projeto <span>↗</span></a>
+          <a class="button button--ghost" href="#projetos">Ver meu trabalho</a>
         </div>
       </div>
 
@@ -118,74 +140,81 @@
       <div class="section__inner">
         <div class="section-heading reveal">
           <div>
-            <div class="section-kicker">Projetos</div>
-            <h2>Produto Autônomo</h2>
+            <div class="section-kicker">Projeto em destaque</div>
+            <h2>Tá na Rede</h2>
           </div>
-          <p>Projeto real, pensado para resolver necessidades reais.</p>
+          <p>Um produto real criado do zero: estratégia, experiência, desenvolvimento e evolução contínua em uma única plataforma.</p>
         </div>
 
-        <article class="project-feature reveal">
+        <article class="project-feature project-feature--showcase reveal">
           <div class="project-feature__copy">
-            <span class="project-badge">PROJETO EM DESTAQUE</span>
+            <span class="project-badge">SAAS ESPORTIVO • PRODUTO PRÓPRIO</span>
             <h3>Tá na Rede</h3>
             <p>
-              Plataforma esportiva criada do zero para conectar jogadores, partidas, times e arenas em uma única experiência.
+              Uma plataforma esportiva que conecta jogadores, partidas, times, grupos e arenas. A proposta é reunir descoberta de jogos, organização da rotina esportiva e identidade do jogador em uma experiência única.
             </p>
-            <div class="project-tags">
-              <span>sistema</span><span>design</span><span>dados</span><span>Produto SaaS</span>
+
+            <div class="project-proof" aria-label="Recursos já implementados">
+              <div><strong>Perfis esportivos</strong><span>Modalidade, posição, desempenho e evolução do jogador.</span></div>
+              <div><strong>Partidas e comunidade</strong><span>Explorar jogos, participar, criar times, grupos e acompanhar avisos.</span></div>
+              <div><strong>Arenas e reservas</strong><span>Fluxos para encontrar horários, reservar quadras e aproximar jogadores dos espaços esportivos.</span></div>
+              <div><strong>Experiência pós-jogo</strong><span>Resultados, estatísticas, votação de craque e conteúdo compartilhável.</span></div>
             </div>
-            <a class="text-link" href="https://www.usetanarede.com.br/" target="_blank" rel="noreferrer">Visitar projeto <span>↗</span></a>
+
+            <div class="project-tags">
+              <span>Django</span><span>Python</span><span>PostgreSQL</span><span>UX/UI</span><span>Produto SaaS</span>
+            </div>
+            <a class="text-link" href="https://www.usetanarede.com.br/" target="_blank" rel="noreferrer">Conhecer o Tá na Rede <span>↗</span></a>
           </div>
 
-          <div class="project-device" aria-label="Representação visual do projeto Tá na Rede">
-            <div class="project-device__glow"></div>
-            <div class="browser-mockup">
-              <div class="browser-mockup__bar">
-                <span></span><span></span><span></span>
-                <small>usetanarede.com.br</small>
+          <div class="project-gallery" aria-label="Telas reais do Tá na Rede">
+            <figure class="project-shot project-shot--home">
+              <div class="project-shot__placeholder" aria-hidden="true">
+                <span>TÁ NA REDE</span>
+                <strong>JOGUE. MARQUE. CONECTE.</strong>
+                <small>Experiência mobile do produto</small>
               </div>
-              <div class="browser-mockup__screen">
-                <div class="mock-nav"><b>Tá na Rede</b><span>Explorar&nbsp;&nbsp; Partidas&nbsp;&nbsp; Perfil</span></div>
-                <div class="mock-hero">
-                  <small>ENCONTRE. JOGUE. CONECTE.</small>
-                  <strong>Seu próximo jogo começa aqui.</strong>
-                  <p>Partidas, arenas e pessoas em um só lugar.</p>
-                  <i>Explorar partidas</i>
-                </div>
-                <div class="mock-cards">
-                  <span></span><span></span><span></span>
-                </div>
+              <img src="assets/tanarede-home.webp" alt="Tela inicial mobile do Tá na Rede com próximo jogo, atalhos e navegação" width="1080" height="1920" loading="lazy" decoding="async" onerror="this.hidden=true">
+            </figure>
+            <figure class="project-shot project-shot--profile">
+              <div class="project-shot__placeholder" aria-hidden="true">
+                <span>TÁ NA REDE</span>
+                <strong>SEU JOGO. SUA HISTÓRIA.</strong>
+                <small>Perfil e desempenho do jogador</small>
               </div>
-            </div>
-            <div class="phone-mockup">
-              <div class="phone-mockup__notch"></div>
-              <div class="phone-mockup__content">
-                <small>Tá na Rede</small>
-                <strong>Pronto para jogar hoje?</strong>
-                <div></div><div></div><div></div>
-              </div>
-            </div>
+              <img src="assets/tanarede-perfil.webp" alt="Perfil esportivo mobile do Tá na Rede com estatísticas e modalidade principal" width="1080" height="1920" loading="lazy" decoding="async" onerror="this.hidden=true">
+            </figure>
           </div>
         </article>
+      </div>
+    </section>
 
-        <div class="project-grid">
-          <article class="project-mini reveal">
-            <span class="project-mini__index">01</span>
-            <h3>Sites institucionais</h3>
-            <p>Presença digital profissional, rápida e pensada para gerar confiança.</p>
-            <span class="project-mini__arrow">↗</span>
+    <section id="servicos" class="section section--services">
+      <div class="section__inner">
+        <div class="section-heading reveal">
+          <div>
+            <div class="section-kicker">O que eu desenvolvo</div>
+            <h2>Soluções digitais<br><em>feitas para o seu negócio.</em></h2>
+          </div>
+          <p>Do site que apresenta sua empresa ao sistema que organiza uma operação inteira. Cada projeto começa pelo problema que precisa ser resolvido.</p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card reveal">
+            <span>01</span><h3>Sites institucionais</h3>
+            <p>Presença digital profissional, rápida, responsiva e pensada para transmitir confiança desde o primeiro acesso.</p>
           </article>
-          <article class="project-mini reveal">
-            <span class="project-mini__index">02</span>
-            <h3>Sistemas web</h3>
-            <p>Fluxos, painéis, cadastros e funcionalidades construídas para o seu negócio.</p>
-            <span class="project-mini__arrow">↗</span>
+          <article class="service-card reveal">
+            <span>02</span><h3>Landing pages</h3>
+            <p>Páginas de campanha com mensagem direta, identidade forte e foco em transformar visitas em oportunidades.</p>
           </article>
-          <article class="project-mini reveal">
-            <span class="project-mini__index">03</span>
-            <h3>Landing pages</h3>
-            <p>Páginas de campanha com mensagem forte, visual marcante e foco em conversão.</p>
-            <span class="project-mini__arrow">↗</span>
+          <article class="service-card reveal">
+            <span>03</span><h3>Sistemas web</h3>
+            <p>Painéis, cadastros, fluxos, regras de negócio e integrações construídos para reduzir trabalho manual e organizar processos.</p>
+          </article>
+          <article class="service-card reveal">
+            <span>04</span><h3>Automação e evolução</h3>
+            <p>Melhorias, integrações, manutenção e novas funcionalidades para produtos que precisam continuar crescendo depois da primeira entrega.</p>
           </article>
         </div>
       </div>
@@ -198,7 +227,7 @@
             <div class="section-kicker">Como funciona</div>
             <h2>Um processo claro.<br>Sem complicação.</h2>
           </div>
-          <p>Você acompanha as decisões do começo ao fim. O projeto nasce em conjunto, mas eu conduzo a execução técnica e visual.</p>
+          <p>Você acompanha as decisões do começo ao fim. Eu conduzo a execução técnica e visual, com validações claras para que o projeto avance sem surpresa.</p>
         </div>
 
         <div class="process-track">
@@ -219,33 +248,6 @@
       </div>
     </section>
 
-    <section id="informacoes" class="section section--info">
-      <div class="section__inner">
-        <div class="section-kicker reveal">Informações</div>
-        <div class="info-layout">
-          <div class="info-intro reveal">
-            <h2>Cada projeto é único.<br><em>O orçamento também.</em></h2>
-            <p>Antes de falar em preço, eu prefiro entender o que realmente precisa ser construído. Assim você recebe uma proposta justa para o tamanho do projeto.</p>
-          </div>
-
-          <div class="info-list">
-            <article class="info-row reveal">
-              <span>01</span><div><h3>Orçamento gratuito</h3><p>Você pode apresentar sua ideia e receber uma proposta sem compromisso e sem pagamento antecipado pelo orçamento.</p></div>
-            </article>
-            <article class="info-row reveal">
-              <span>02</span><div><h3>Criação em conjunto</h3><p>Você participa das decisões. Eu transformo objetivos e referências em uma direção visual e técnica coerente.</p></div>
-            </article>
-            <article class="info-row reveal">
-              <span>03</span><div><h3>Sem template genérico</h3><p>A estrutura é pensada para o seu projeto. Identidade, navegação e conteúdo precisam conversar com o seu negócio.</p></div>
-            </article>
-            <article class="info-row reveal">
-              <span>04</span><div><h3>Suporte combinado</h3><p>Hospedagem, manutenção e evoluções podem fazer parte da proposta ou ser contratadas conforme a necessidade.</p></div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section id="contato" class="section section--contact">
       <div class="contact-orbit" aria-hidden="true">
         <span></span><span></span><span></span><span></span><span></span>
@@ -256,7 +258,7 @@
         <p>Me conte o que você quer criar. A primeira conversa é para entender o projeto — sem compromisso.</p>
 
         <div class="contact-actions">
-          <a class="button button--primary button--large" href="https://wa.me/5555999513788?text=Ol%C3%A1%20Victor%2C%20quero%20falar%20sobre%20um%20projeto." target="_blank" rel="noreferrer">Falar pelo WhatsApp <span>↗</span></a>
+          <a class="button button--primary button--large" href="https://wa.me/5555999513788?text=Ol%C3%A1%20Victor%2C%20quero%20falar%20sobre%20um%20projeto." target="_blank" rel="noreferrer">Solicitar orçamento pelo WhatsApp <span>↗</span></a>
         </div>
 
         <a class="contact-email" href="mailto:victoreduardo.ggoncalves@outlook.com.br">victoreduardo.ggoncalves@outlook.com.br</a>
@@ -270,6 +272,6 @@
     <span>© <span id="year"></span></span>
   </footer>
 
-  <script src="script.js?v=20260925-mobile5" defer></script>
+  <script src="script.js?v=20260926-pro1" defer></script>
 </body>
 </html>
