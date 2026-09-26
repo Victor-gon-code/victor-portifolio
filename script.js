@@ -7,11 +7,19 @@
   const linePaths = Array.from(document.querySelectorAll(".constellation-lines path"));
   const lineSvg = document.getElementById("constellation-lines");
   const morphHeader = document.getElementById("morph-header");
+  const morphBrand = document.querySelector(".morph-brand");
+  const morphContact = document.querySelector(".morph-contact");
   const sections = Array.from(document.querySelectorAll("main section[id]"));
   const processTrack = document.querySelector(".process-track");
   const year = document.getElementById("year");
 
   if (year) year.textContent = new Date().getFullYear();
+
+  // Hidden header controls must not remain in the keyboard tab order before
+  // the header becomes visible. Pointer-events alone does not handle keyboard focus.
+  [morphBrand, morphContact].forEach((el) => {
+    if (el) el.tabIndex = -1;
+  });
 
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
   const smoothstep = (t) => t * t * (3 - 2 * t);
@@ -223,8 +231,12 @@
     root.style.setProperty("--header-progress", headerProgress.toFixed(3));
 
     if (morphHeader) {
-      morphHeader.setAttribute("aria-hidden", headerProgress > 0.5 ? "false" : "true");
+      morphHeader.setAttribute("aria-hidden", headerReady ? "false" : "true");
     }
+    [morphBrand, morphContact].forEach((el) => {
+      if (!el) return;
+      el.tabIndex = headerReady ? 0 : -1;
+    });
 
     lastMorphProgress = raw;
     lastLayoutMode = layoutMode;
@@ -250,6 +262,19 @@
     requestMorphUpdate();
   }, { passive: true });
 
+  function scrollToSection(target, updateHash = true) {
+    if (!target) return;
+    const offset = viewport.width <= 820 ? 132 : 82;
+    const top = target.getBoundingClientRect().top + window.scrollY - offset + 1;
+
+    window.scrollTo({
+      top,
+      behavior: reducedMotion ? "auto" : "smooth"
+    });
+
+    if (updateHash) history.replaceState(null, "", "#" + target.id);
+  }
+
   starLinks.forEach((link) => {
     link.addEventListener("click", (event) => {
       const id = link.dataset.target;
@@ -257,15 +282,20 @@
       if (!target) return;
 
       event.preventDefault();
-      const offset = viewport.width <= 820 ? 132 : 82;
-      const top = target.getBoundingClientRect().top + window.scrollY - offset + 1;
+      scrollToSection(target);
+    });
+  });
 
-      window.scrollTo({
-        top,
-        behavior: reducedMotion ? "auto" : "smooth"
-      });
-
-      history.replaceState(null, "", "#" + id);
+  // Keep in-page CTA links consistent with the animated header offset.
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    if (link.classList.contains("star-link")) return;
+    link.addEventListener("click", (event) => {
+      const id = link.getAttribute("href")?.slice(1);
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (!target) return;
+      event.preventDefault();
+      scrollToSection(target);
     });
   });
 
