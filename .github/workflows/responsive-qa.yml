@@ -1,0 +1,178 @@
+name: Responsive portfolio QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/responsive-qa.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install browser test runner
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Start local portfolio
+        run: |
+          python3 -m http.server 4173 >/tmp/portfolio-server.log 2>&1 &
+          echo $! >/tmp/portfolio-server.pid
+          sleep 2
+          curl -fsS http://127.0.0.1:4173/ >/dev/null
+
+      - name: Test desktop, tablet and mobile layouts
+        run: |
+          cat > /tmp/qa.mjs <<'EOF'
+          import { chromium } from "playwright";
+
+          const cases = [
+            { name: "desktop", width: 1440, height: 1000 },
+            { name: "laptop", width: 1180, height: 820 },
+            { name: "tablet", width: 820, height: 1180 },
+            { name: "phone-large", width: 430, height: 932 },
+            { name: "phone-medium", width: 390, height: 844 },
+            { name: "phone-small", width: 360, height: 800 }
+          ];
+
+          const browser = await chromium.launch({ headless: true });
+          const failures = [];
+
+          for (const test of cases) {
+            const page = await browser.newPage({
+              viewport: { width: test.width, height: test.height },
+              deviceScaleFactor: 1,
+              isMobile: test.width <= 700,
+              hasTouch: test.width <= 700
+            });
+
+            const errors = [];
+            page.on("console", msg => {
+              if (msg.type() === "error") errors.push("console: " + msg.text());
+            });
+            page.on("pageerror", err => errors.push("pageerror: " + err.message));
+
+            await page.goto("http://127.0.0.1:4173/", { waitUntil: "networkidle" });
+            await page.evaluate(() => document.fonts?.ready);
+            await page.waitForTimeout(250);
+
+            const result = await page.evaluate(() => {
+              const required = ["inicio","sobre","tanarede","trabalho","processo","contato"];
+              const missing = required.filter(id => {
+                const el = document.getElementById(id);
+                if (!el) return true;
+                const rect = el.getBoundingClientRect();
+                return rect.width < 20 || rect.height < 20;
+              });
+
+              const viewport = document.documentElement.clientWidth;
+              const scrollWidth = document.documentElement.scrollWidth;
+              const overflow = [];
+
+              document.querySelectorAll("main *, header *, footer *").forEach(el => {
+                const style = getComputedStyle(el);
+                if (style.position === "fixed") return;
+                const rect = el.getBoundingClientRect();
+                if (!rect.width || !rect.height) return;
+
+                if (rect.right > viewport + 3 || rect.left < -3) {
+                  const allowed =
+                    el.classList.contains("tanarede-marquee") ||
+                    el.closest(".tanarede-marquee") ||
+                    el.classList.contains("hero-paper__scribble");
+
+                  if (!allowed && overflow.length < 12) {
+                    overflow.push({
+                      tag: el.tagName,
+                      cls: el.className || "",
+                      left: Math.round(rect.left),
+                      right: Math.round(rect.right)
+                    });
+                  }
+                }
+              });
+
+              const portrait = document.querySelector(".portrait-print img");
+              const currentPortrait = portrait?.currentSrc || "";
+
+              return {
+                missing,
+                viewport,
+                scrollWidth,
+                documentOverflow: scrollWidth > viewport + 2,
+                overflow,
+                currentPortrait
+              };
+            });
+
+            if (errors.length) {
+              failures.push({ case: test.name, reason: "runtime-errors", errors });
+            }
+
+            if (result.missing.length) {
+              failures.push({ case: test.name, reason: "missing-sections", data: result.missing });
+            }
+
+            if (result.documentOverflow) {
+              failures.push({
+                case: test.name,
+                reason: "document-overflow",
+                data: { viewport: result.viewport, scrollWidth: result.scrollWidth, offenders: result.overflow }
+              });
+            }
+
+            if (result.overflow.length) {
+              failures.push({ case: test.name, reason: "element-overflow", data: result.overflow });
+            }
+
+            await page.locator("#tanarede").scrollIntoViewIfNeeded();
+            await page.waitForTimeout(180);
+            const activeSection = await page.evaluate(() => document.body.dataset.section || "");
+            if (activeSection !== "tanarede") {
+              failures.push({ case: test.name, reason: "section-awareness", data: activeSection });
+            }
+
+            await page.locator("#inicio").scrollIntoViewIfNeeded();
+            const beforeAccent = await page.evaluate(() => document.body.dataset.accent || "blue");
+            await page.locator(".color-stamp").click();
+            const afterAccent = await page.evaluate(() => document.body.dataset.accent || "blue");
+            if (beforeAccent === afterAccent) {
+              failures.push({ case: test.name, reason: "color-easter-egg" });
+            }
+
+            console.log(JSON.stringify({ case: test.name, ...result, errors }));
+            await page.close();
+          }
+
+          await browser.close();
+
+          if (failures.length) {
+            console.error("\nQA FAILURES\n" + JSON.stringify(failures, null, 2));
+            process.exit(1);
+          }
+
+          console.log("\nAll responsive QA checks passed.");
+          EOF
+
+          node /tmp/qa.mjs
+
+      - name: Remove temporary QA workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/responsive-qa.yml
+          git commit -m "chore: complete responsive portfolio QA"
+          git push origin main
