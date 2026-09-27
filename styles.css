@@ -1563,3 +1563,401 @@ svg{
     transition:none;
   }
 }
+
+
+/* ==========================================================================
+   FINAL POLISH — transitions, responsiveness and low-end performance
+   ========================================================================== */
+
+/* Section-to-section paper edges. These are simple clipped shapes (cheap to
+   render) and intentionally irregular, so the color changes feel like pages
+   laid over one another instead of full-width app sections. */
+.hero-paper,
+.about-paper,
+.tanarede-paper,
+.work-paper,
+.process-paper,
+.contact-paper{
+  border-bottom:0;
+}
+
+.paper-seam{
+  --seam-next:var(--paper);
+  position:relative;
+  z-index:6;
+  height:42px;
+  margin:-2px 0;
+  overflow:hidden;
+  pointer-events:none;
+  background:var(--paper);
+}
+
+.paper-seam::after{
+  content:"";
+  position:absolute;
+  inset:-1px -3% 0;
+  background:var(--seam-next);
+  clip-path:polygon(
+    0 45%,
+    4% 31%,
+    9% 47%,
+    14% 28%,
+    20% 43%,
+    26% 25%,
+    31% 46%,
+    37% 31%,
+    44% 48%,
+    50% 27%,
+    57% 43%,
+    63% 30%,
+    70% 49%,
+    76% 26%,
+    82% 44%,
+    88% 31%,
+    94% 47%,
+    100% 35%,
+    100% 100%,
+    0 100%
+  );
+}
+
+.paper-seam--reverse::after{
+  transform:scaleX(-1);
+}
+
+.paper-seam--to-white{
+  --seam-next:var(--paper-clean);
+  background:var(--paper);
+}
+
+.paper-seam--to-yellow{
+  --seam-next:var(--yellow);
+  background:var(--paper-clean);
+}
+
+.paper-seam--to-paper{
+  --seam-next:var(--paper);
+}
+
+.tanarede-paper + .paper-seam--to-paper{
+  background:var(--yellow);
+}
+
+.contact-paper + .paper-seam--to-paper{
+  background:var(--coral);
+}
+
+.paper-seam--to-sky{
+  --seam-next:var(--sky);
+  background:var(--paper);
+}
+
+.paper-seam--to-coral{
+  --seam-next:var(--coral);
+  background:var(--sky);
+}
+
+/* The sticky bar quietly follows the page instead of staying as a foreign
+   cream slab over every section. No blur/backdrop-filter: cheaper on phones. */
+.topbar{
+  transition:background-color .32s ease,border-color .25s ease;
+}
+
+body[data-section="sobre"] .topbar{
+  background:rgba(255,253,248,.96);
+}
+
+body[data-section="tanarede"] .topbar{
+  background:rgba(255,217,92,.96);
+}
+
+body[data-section="trabalho"] .topbar{
+  background:rgba(247,241,231,.96);
+}
+
+body[data-section="processo"] .topbar{
+  background:rgba(223,234,255,.96);
+}
+
+body[data-section="contato"] .topbar{
+  background:rgba(255,114,94,.96);
+}
+
+/* Slightly calmer shadows and better image rasterization. */
+.portrait-print picture{
+  position:relative;
+  z-index:1;
+  display:block;
+}
+
+.portrait-print picture img,
+.tn-screen img{
+  -webkit-transform:translateZ(0);
+  transform:translateZ(0);
+  backface-visibility:hidden;
+}
+
+.portrait-print img{
+  box-shadow:0 14px 36px rgba(24,33,59,.10);
+}
+
+.tn-screen img{
+  box-shadow:8px 8px 0 var(--ink),0 18px 34px rgba(24,33,59,.12);
+}
+
+/* The continuous ticker only moves while it is actually on screen. */
+.tanarede-marquee div{
+  animation-play-state:paused;
+  will-change:auto;
+}
+
+.tanarede-marquee.is-running div{
+  animation-play-state:running;
+  will-change:transform;
+}
+
+/* Reveal stays visible enough to feel polished, but does not make the page
+   wait for content to "load in". */
+.reveal{
+  transform:translateY(8px);
+  transition:
+    opacity .42s cubic-bezier(.2,.72,.2,1),
+    transform .42s cubic-bezier(.2,.72,.2,1);
+}
+
+/* Smaller screens: remove the only expensive full-screen texture and fix
+   visual density so this still looks intentionally designed, not collapsed. */
+@media (max-width:700px){
+  body::before{
+    display:none;
+  }
+
+  .paper-seam{
+    height:28px;
+  }
+
+  .topbar{
+    transition-duration:.2s;
+  }
+
+  .hero-paper{
+    padding-top:58px;
+  }
+
+  .hero-paper__intro{
+    line-height:1.4;
+  }
+
+  .portrait-print img{
+    box-shadow:0 10px 24px rgba(24,33,59,.09);
+  }
+
+  .tn-screen img{
+    box-shadow:5px 5px 0 var(--ink);
+  }
+
+  /* Explicit grid positions avoid the centre note colliding with the screens
+     on narrow browsers. */
+  .tanarede-middle-note{
+    grid-column:1 / -1;
+    grid-row:1;
+  }
+
+  .tn-screen--home{
+    grid-column:1;
+    grid-row:2;
+  }
+
+  .tn-screen--profile{
+    grid-column:2;
+    grid-row:2;
+  }
+
+  .tanarede-marquee div{
+    animation-duration:32s;
+  }
+}
+
+@media (max-width:520px){
+  .hero-paper{
+    padding-left:14px;
+    padding-right:14px;
+  }
+
+  .hero-paper h1{
+    font-size:clamp(50px,15.5vw,68px);
+    line-height:.88;
+  }
+
+  .hero-paper__intro{
+    width:90%;
+    margin-left:10%;
+  }
+
+  .hero-paper__links{
+    margin-left:10%;
+  }
+
+  .hero-note{
+    width:84%;
+    margin-left:2%;
+  }
+
+  .color-stamp{
+    width:60px;
+    height:60px;
+    right:12px;
+  }
+
+  .paper-heading h2{
+    font-size:clamp(49px,14.6vw,66px);
+  }
+
+  .portrait-print{
+    width:94%;
+  }
+
+  .about-copy{
+    width:100%;
+    margin-left:0;
+  }
+
+  .about-copy__lead{
+    font-size:25px;
+  }
+
+  .about-copy blockquote{
+    font-size:27px;
+  }
+
+  .tanarede-title h2{
+    font-size:clamp(76px,23vw,102px);
+  }
+
+  .tanarede-title__aside{
+    width:82%;
+  }
+
+  .tanarede-story p:last-child{
+    width:92%;
+  }
+
+  .tanarede-middle-note strong{
+    font-size:17px;
+  }
+
+  .need-row p{
+    width:94%;
+    margin-left:6%;
+  }
+
+  .process-intro{
+    width:92%;
+  }
+
+  .contact-paper h2{
+    font-size:clamp(56px,16.5vw,74px);
+  }
+
+  .contact-paper__copy{
+    width:92%;
+    margin-left:8%;
+  }
+
+  .contact-paper__whatsapp{
+    font-size:24px;
+  }
+}
+
+@media (max-width:390px){
+  .wordmark{
+    font-size:14px;
+  }
+
+  .topbar-contact{
+    font-size:7px;
+    box-shadow:2px 2px 0 var(--accent);
+  }
+
+  .hero-paper h1{
+    font-size:clamp(47px,15vw,60px);
+  }
+
+  .hero-paper__footer{
+    font-size:6px;
+  }
+
+  .hero-note{
+    width:88%;
+  }
+
+  .skills-line span{
+    flex-basis:100%;
+    border-right:0;
+  }
+
+  .skills-line span:nth-last-child(-n+2){
+    border-bottom:1px solid var(--ink);
+  }
+
+  .skills-line span:last-child{
+    border-bottom:0;
+  }
+
+  .tanarede-screens{
+    gap:8px;
+  }
+
+  .tn-screen figcaption{
+    white-space:normal;
+    line-height:1.35;
+  }
+
+  .contact-paper__links{
+    font-size:7px;
+  }
+
+  .footer-paper{
+    grid-template-columns:1fr;
+  }
+
+  .footer-paper span{
+    justify-self:start;
+  }
+}
+
+/* Low-end phones/data-saver mode: preserve the design, drop only continuous
+   or compositing-heavy details. */
+.lite-motion body::before{
+  display:none;
+}
+
+.lite-motion .tanarede-marquee div{
+  animation:none!important;
+  transform:none!important;
+  will-change:auto!important;
+}
+
+.lite-motion .reveal{
+  transition-duration:.20s;
+}
+
+.lite-motion .hero-note,
+.lite-motion .color-stamp{
+  transition:none!important;
+}
+
+.lite-motion .tn-screen img{
+  box-shadow:4px 4px 0 var(--ink);
+}
+
+@media (prefers-reduced-motion:reduce){
+  .tanarede-marquee div{
+    animation:none!important;
+    transform:none!important;
+  }
+
+  .topbar{
+    transition:none;
+  }
+}
