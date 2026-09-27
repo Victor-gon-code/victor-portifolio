@@ -84,32 +84,39 @@
   }
 
   // Section awareness drives both the nav underline and the paper color of the
-  // sticky header. This gives each page transition a visual continuation.
-  const sectionObserver = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+  // sticky header. A small scroll-position probe is more reliable than section
+  // intersection ratios because some sections are much taller than the viewport.
+  let sectionFrame = null;
 
-      if (!visible.length) return;
+  function updateSectionState() {
+    sectionFrame = null;
 
-      const currentId = visible[0].target.id;
-      document.body.dataset.section = currentId;
+    const probeY = headerOffset() + Math.min(window.innerHeight * 0.24, 180);
+    let currentId = trackedSections[0]?.id || "inicio";
 
-      navLinks.forEach((link) => {
-        const href = link.getAttribute("href");
-        link.classList.toggle("is-active", href === "#" + currentId);
-      });
-    },
-    {
-      threshold: [0.12, 0.28, 0.48],
-      rootMargin: "-16% 0px -62% 0px"
-    }
-  );
+    trackedSections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= probeY) {
+        currentId = section.id;
+      }
+    });
 
-  trackedSections.forEach((section) => {
-    sectionObserver.observe(section);
-  });
+    document.body.dataset.section = currentId;
+
+    navLinks.forEach((link) => {
+      const href = link.getAttribute("href");
+      link.classList.toggle("is-active", href === "#" + currentId);
+    });
+  }
+
+  function requestSectionState() {
+    if (sectionFrame) return;
+    sectionFrame = requestAnimationFrame(updateSectionState);
+  }
+
+  window.addEventListener("scroll", requestSectionState, { passive: true });
+  window.addEventListener("resize", requestSectionState, { passive: true });
+  updateSectionState();
 
   // Continuous movement costs battery/CPU for no benefit while off-screen.
   // Run the marquee only while the user can actually see it.
