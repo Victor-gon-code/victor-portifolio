@@ -21,7 +21,7 @@
   <title>Victor Eduardo — Desenvolvedor Web</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" as="image" href="assets/hero-final.webp" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=20260926-flow2">
+  <link rel="stylesheet" href="styles.css?v=20260926-editorial1">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -112,25 +112,65 @@
       <p class="hero__constellation-note" aria-hidden="true">Escolha uma estrela para navegar</p>
     </section>
 
-    <section id="sobre" class="section section--about">
-      <div class="section__inner">
-        <div class="section-kicker reveal">Sobre mim</div>
-        <div class="about-grid">
-          <div class="about-copy reveal">
-            <h2>Mais do que código,<br><em>produtos que fazem sentido.</em></h2>
+    <div class="hero-transition" aria-hidden="true">
+      <span class="hero-transition__mist hero-transition__mist--one"></span>
+      <span class="hero-transition__mist hero-transition__mist--two"></span>
+      <span class="hero-transition__mist hero-transition__mist--three"></span>
+      <span class="hero-transition__grain"></span>
+    </div>
+
+    <section id="sobre" class="section section--about section--editorial">
+      <div class="editorial-page">
+        <div class="editorial-masthead reveal">
+          <span class="editorial-issue">PORTFÓLIO / 01</span>
+          <span class="editorial-rule"></span>
+          <span class="editorial-date">VICTOR EDUARDO</span>
+        </div>
+
+        <div class="editorial-layout">
+          <div class="editorial-title reveal">
+            <span>Sobre</span>
+            <strong>mim.</strong>
           </div>
-          <div class="about-detail reveal">
-            <p class="lead">
-              Meu nome é Victor Eduardo, sou desenvolvedor web de sites e sistemas. Gosto de transformar uma ideia ainda solta em algo claro, bonito e realmente utilizável.
-            </p>
-            <p>
-              Meu trabalho une desenvolvimento, experiência de uso e direção visual. A tecnologia entra para resolver o problema — não para complicar o projeto.
-            </p>
-            <div class="about-signature">
-              <span>DESENVOLVIMENTO</span>
-              <span>DESIGN</span>
-              <span>PRODUTO</span>
+
+          <figure class="editorial-photo reveal" data-photo-slot>
+            <div class="editorial-photo__placeholder" aria-label="Espaço preparado para a foto de Victor Eduardo">
+              <span>FOTO</span>
+              <small>imagem entra aqui</small>
             </div>
+            <!-- Próxima etapa: substituir o placeholder pela foto enviada pelo Victor. -->
+          </figure>
+
+          <div class="editorial-note editorial-note--top reveal">
+            <span>DESENVOLVIMENTO</span>
+            <span>PRODUTO</span>
+            <span>DESIGN</span>
+          </div>
+
+          <div class="editorial-copy editorial-copy--lead reveal" data-copy-slot="lead">
+            <!-- Próxima etapa: inserir aqui o primeiro trecho do texto enviado pelo Victor. -->
+            <p aria-hidden="true">Texto editorial reservado para a próxima etapa.</p>
+          </div>
+
+          <div class="editorial-index reveal" aria-hidden="true">
+            <span>01</span>
+            <i></i>
+            <small>perfil</small>
+          </div>
+
+          <blockquote class="editorial-quote reveal" data-copy-slot="quote">
+            <!-- Próxima etapa: escolher uma frase curta do texto enviado pelo Victor. -->
+            <span aria-hidden="true">“</span>
+          </blockquote>
+
+          <div class="editorial-copy editorial-copy--side reveal" data-copy-slot="side">
+            <!-- Próxima etapa: inserir aqui o segundo trecho do texto enviado pelo Victor. -->
+            <p aria-hidden="true">Conteúdo reservado.</p>
+          </div>
+
+          <div class="editorial-caption reveal">
+            <span>WEB / SISTEMAS / IDEIAS</span>
+            <small>Construir primeiro. Explicar depois.</small>
           </div>
         </div>
       </div>
