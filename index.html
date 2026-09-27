@@ -3,30 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#05080d">
-  <meta name="color-scheme" content="dark">
-  <meta name="description" content="Victor Eduardo — desenvolvedor web. Sites, sistemas, automações e produtos digitais construídos do conceito ao deploy.">
+  <meta name="theme-color" content="#f7f1e7">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Victor Eduardo — desenvolvedor web. Sites, sistemas, automações e produtos digitais feitos do jeito que cada ideia pede.">
+
   <meta property="og:title" content="Victor Eduardo — Desenvolvedor Web">
-  <meta property="og:description" content="Sites, sistemas e produtos digitais construídos do conceito ao produto no ar.">
+  <meta property="og:description" content="Sites, sistemas e automações. Ideia meio solta entra; produto funcionando sai.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="Victor Eduardo">
   <meta property="og:url" content="https://victoreduardodev.tech/">
-  <meta property="og:image" content="https://victoreduardodev.tech/assets/hero-final.webp">
+  <meta property="og:image" content="https://victoreduardodev.tech/assets/victor-editorial.png">
+
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Victor Eduardo — Desenvolvedor Web">
-  <meta name="twitter:description" content="Sites, sistemas e produtos digitais construídos do conceito ao produto no ar.">
-  <meta name="twitter:image" content="https://victoreduardodev.tech/assets/hero-final.webp">
+  <meta name="twitter:description" content="Sites, sistemas e automações. Ideia meio solta entra; produto funcionando sai.">
+  <meta name="twitter:image" content="https://victoreduardodev.tech/assets/victor-editorial.png">
+
   <link rel="canonical" href="https://victoreduardodev.tech/">
   <title>Victor Eduardo — Desenvolvedor Web</title>
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preload" as="image" href="assets/hero-final.webp" type="image/webp" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260926-base">
-  <link rel="stylesheet" href="site-v3.css?v=20260926-human1">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260926-paper1">
 
   <script type="application/ld+json">
   {
@@ -36,363 +37,366 @@
     "url": "https://victoreduardodev.tech/",
     "jobTitle": "Desenvolvedor Web",
     "sameAs": ["https://github.com/Victor-gon-code"],
-    "knowsAbout": ["Desenvolvimento Web", "Sistemas Web", "SaaS", "Automação", "Django", "Python", "Inteligência Artificial"]
+    "knowsAbout": [
+      "Desenvolvimento Web",
+      "Sistemas Web",
+      "SaaS",
+      "Automação",
+      "Django",
+      "Python",
+      "Inteligência Artificial"
+    ]
   }
   </script>
 </head>
+
 <body>
-  <div id="morph-shell" class="morph-shell" aria-label="Navegação principal">
-    <div id="morph-header" class="morph-header" aria-hidden="true">
-      <a class="morph-brand" href="#inicio" aria-label="Voltar ao início">
-        <span class="morph-brand__name">Victor Eduardo.</span>
-        <span class="morph-brand__role">DESENVOLVEDOR WEB</span>
-      </a>
-      <a class="morph-contact" href="#contato">
-        <span class="contact-long">Entrar em contato</span>
-        <span class="contact-short">Contato</span>
-      </a>
-    </div>
+  <header class="topbar">
+    <a class="wordmark" href="#inicio" aria-label="Voltar para o início">
+      victor<span>.</span>eduardo
+    </a>
 
-    <svg id="constellation-lines" class="constellation-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-      <path data-line="0"></path>
-      <path data-line="1"></path>
-      <path data-line="2"></path>
-      <path data-line="3"></path>
-    </svg>
-
-    <nav id="constellation-nav" class="constellation-nav">
-      <a class="star-link" data-star="0" data-target="sobre" href="#sobre">
-        <span class="star-link__star"><i></i></span>
-        <span class="star-link__label">Sobre mim</span>
-      </a>
-      <a class="star-link" data-star="1" data-target="projetos" href="#projetos">
-        <span class="star-link__star"><i></i></span>
-        <span class="star-link__label">Projetos</span>
-      </a>
-      <a class="star-link" data-star="2" data-target="servicos" href="#servicos">
-        <span class="star-link__star"><i></i></span>
-        <span class="star-link__label">Serviços</span>
-      </a>
-      <a class="star-link" data-star="3" data-target="processo" href="#processo">
-        <span class="star-link__star"><i></i></span>
-        <span class="star-link__label">Processo</span>
-      </a>
-      <a class="star-link" data-star="4" data-target="contato" href="#contato">
-        <span class="star-link__star"><i></i></span>
-        <span class="star-link__label">Contato</span>
-      </a>
+    <nav class="topnav" aria-label="Navegação principal">
+      <a href="#sobre">eu</a>
+      <a href="#tanarede">tá na rede</a>
+      <a href="#trabalho">o que faço</a>
+      <a href="#processo">como</a>
     </nav>
-  </div>
+
+    <a class="topbar-contact" href="#contato">me chama ↗</a>
+  </header>
 
   <main>
-    <section id="inicio" class="hero" aria-labelledby="hero-title">
-      <div class="hero__mountains" aria-hidden="true">
-        <div class="mountain mountain--back"></div>
-        <div class="mountain mountain--front"></div>
+    <section id="inicio" class="hero-paper">
+      <div class="hero-paper__scribble" aria-hidden="true">
+        <svg viewBox="0 0 290 180">
+          <path d="M17 127C67 40 173 22 263 55C217 62 183 83 167 124C153 82 108 72 60 94" />
+          <path d="M251 47L267 55L255 72" />
+        </svg>
       </div>
 
-      <div class="hero__content">
-        <p class="eyebrow"><span></span> Desenvolvedor web</p>
-        <h1 id="hero-title">Victor<br>Eduardo</h1>
-        <p class="hero__tagline">Conectando ideias.<br><strong>Criando produtos digitais.</strong></p>
-        <p class="hero__copy">
-          Sites, sistemas e automações construídos com estratégia, identidade e tecnologia — do primeiro conceito ao produto no ar.
+      <button class="color-stamp" type="button" aria-label="Trocar a cor dos detalhes do site" title="clica">
+        <span class="color-stamp__star" aria-hidden="true">✳</span>
+        <span>clica</span>
+      </button>
+
+      <div class="hero-paper__main">
+        <p class="hello-note">Oi. Eu sou o Victor.</p>
+
+        <h1>
+          Eu pego uma ideia
+          <span class="marker marker--coral">meio solta</span>
+          e faço ela virar
+          <span class="marker marker--blue">coisa de verdade.</span>
+        </h1>
+
+        <p class="hero-paper__intro">
+          Site, sistema, automação, correção de bug… se dá para resolver com código,
+          provavelmente eu vou querer mexer.
         </p>
 
-        <div class="hero__actions">
-          <a class="button button--primary" href="#contato">Falar sobre um projeto <span>↗</span></a>
-          <a class="button button--ghost" href="#projetos">Ver meu trabalho</a>
+        <div class="hero-paper__links">
+          <a href="#tanarede">ver algo que eu já fiz ↓</a>
+          <a href="#contato">tenho uma ideia ↗</a>
         </div>
       </div>
 
-      <div class="hero__hint" aria-hidden="true">
-        <span class="hero__hint-icon">↓</span>
-        <span>Role para explorar</span>
-      </div>
+      <aside class="hero-note" aria-label="Um pouco sobre mim">
+        <span class="hero-note__pin" aria-hidden="true"></span>
+        <p>militar de profissão</p>
+        <p>programador por escolha</p>
+        <p>estudante de ADS</p>
+        <p>curioso por natureza</p>
+      </aside>
 
-      <div class="hero__meta" aria-label="Resumo dos serviços">
-        <div><strong>Sites</strong><span>Presença digital</span></div>
-        <div><strong>Sistemas</strong><span>Soluções sob medida</span></div>
-        <div><strong>Automações</strong><span>Menos trabalho manual</span></div>
+      <div class="hero-paper__footer">
+        <span>Python + Django + bastante tentativa</span>
+        <span>role sem cerimônia ↓</span>
       </div>
-
-      <p class="hero__constellation-note" aria-hidden="true">Escolha uma estrela para navegar</p>
     </section>
 
-    <div class="sky-bridge" aria-hidden="true">
-      <div class="sky-bridge__wash"></div>
-      <svg class="sky-bridge__fog" viewBox="0 0 1600 440" preserveAspectRatio="none">
-        <defs>
-          <filter id="fog-field" x="-15%" y="-35%" width="130%" height="170%" color-interpolation-filters="sRGB">
-            <feTurbulence type="fractalNoise" baseFrequency="0.005 0.017" numOctaves="3" seed="19" result="noise"></feTurbulence>
-            <feColorMatrix in="noise" type="matrix"
-              values="0 0 0 0 .52
-                      0 0 0 0 .61
-                      0 0 0 0 .65
-                      .36 .36 .36 0 -.48"
-              result="fogcolor"></feColorMatrix>
-            <feGaussianBlur in="fogcolor" stdDeviation="18"></feGaussianBlur>
-          </filter>
-          <linearGradient id="fog-fade" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="white" stop-opacity="0"></stop>
-            <stop offset="26%" stop-color="white" stop-opacity=".38"></stop>
-            <stop offset="62%" stop-color="white" stop-opacity=".92"></stop>
-            <stop offset="100%" stop-color="white" stop-opacity="0"></stop>
-          </linearGradient>
-          <mask id="fog-mask">
-            <rect width="1600" height="440" fill="url(#fog-fade)"></rect>
-          </mask>
-        </defs>
-        <rect x="-80" y="-40" width="1760" height="520" filter="url(#fog-field)" mask="url(#fog-mask)"></rect>
-      </svg>
-    </div>
+    <section id="sobre" class="about-paper">
+      <div class="paper-shell">
+        <header class="paper-heading reveal">
+          <p class="eyebrow-light">quem está por trás disso</p>
+          <h2>Antes do código,<br>tem <em>eu.</em></h2>
+        </header>
 
-    <div class="site-flow">
-      <section id="sobre" class="flow-section profile-story" aria-labelledby="profile-heading">
-        <div class="flow-shell">
-          <header class="section-intro section-intro--profile reveal">
-            <p class="section-label">Sobre mim</p>
-            <h2 id="profile-heading">
-              Eu gosto mais da parte em que
-              <em>a ideia começa a funcionar.</em>
-            </h2>
-          </header>
+        <div class="about-paper__layout">
+          <figure class="portrait-print reveal">
+            <div class="portrait-print__back" aria-hidden="true"></div>
+            <img
+              src="assets/victor-editorial.png"
+              alt="Retrato de Victor Eduardo"
+              width="1187"
+              height="1325"
+              loading="lazy"
+              decoding="async">
+            <figcaption>Victor Eduardo — 25 anos</figcaption>
+          </figure>
 
-          <div class="profile-layout">
-            <figure class="profile-portrait reveal">
-              <img
-                src="assets/victor-editorial.png"
-                alt="Retrato de Victor Eduardo"
-                width="1187"
-                height="1325"
-                loading="lazy"
-                decoding="async">
-              <figcaption>
-                <span>Victor Eduardo</span>
-                <span>Militar • Desenvolvedor web • ADS</span>
-              </figcaption>
-            </figure>
-
-            <article class="profile-copy reveal">
-              <p class="profile-lead">
-                Olá, seja bem-vindo ao meu portfólio. Meu nome é Victor Eduardo. Sou militar, desenvolvedor web e estudante de Análise e Desenvolvimento de Sistemas.
-              </p>
-
-              <p>
-                Trabalho com Tecnologia da Informação há cerca de um ano e foi construindo que eu realmente entrei de cabeça na área. Uso principalmente Python e Django para criar sites e sistemas, além de fazer automações, corrigir bugs e revisar projetos que já existem quando alguma coisa não está funcionando do jeito que deveria.
-              </p>
-
-              <blockquote>
-                Meu maior foco continua sendo pegar a ideia do cliente e construir em cima dela até virar algo real.
-              </blockquote>
-
-              <p>
-                Também uso inteligência artificial bastante no meu dia a dia, principalmente na criação e estruturação de prompts para deixar a ferramenta mais objetiva e chegar mais perto do resultado que a pessoa quer.
-              </p>
-
-              <p>
-                Fora do desenvolvimento web, estudo cibersegurança e Internet das Coisas. Gosto de entender como as coisas funcionam por trás da tela — de uma aplicação web a automações com dispositivos e câmeras conectadas.
-              </p>
-            </article>
-          </div>
-
-          <div class="profile-strip reveal" aria-label="Tecnologias e áreas de interesse">
-            <span>Python</span>
-            <span>Django</span>
-            <span>PostgreSQL</span>
-            <span>Automação</span>
-            <span>IA aplicada</span>
-            <span>Cibersegurança</span>
-          </div>
-        </div>
-      </section>
-
-      <section id="projetos" class="flow-section case-study" aria-labelledby="case-heading">
-        <div class="flow-shell">
-          <header class="case-header reveal">
-            <div>
-              <p class="section-label">Projeto próprio • produto em produção</p>
-              <h2 id="case-heading">Tá na Rede</h2>
-            </div>
-            <p class="case-header__intro">
-              Um SaaS esportivo que eu criei do zero e continuo evoluindo: jogadores, partidas, times, grupos, arenas e reservas dentro do mesmo produto.
+          <div class="about-copy reveal">
+            <p class="about-copy__lead">
+              Sou militar, desenvolvedor web e estudo Análise e Desenvolvimento de Sistemas.
+              Entrei na tecnologia há cerca de um ano e foi fazendo projeto de verdade que a coisa começou a fazer sentido pra mim.
             </p>
-          </header>
 
-          <div class="case-media reveal" aria-label="Telas reais do Tá na Rede">
-            <div class="case-media__statement">
-              <span>Produto real.</span>
-              <strong>Backend, interface, regras de negócio e deploy.</strong>
-              <p>Não é um mockup de portfólio. É um sistema que eu construo, testo e mantenho.</p>
-            </div>
-
-            <figure class="case-screen case-screen--home">
-              <img
-                src="assets/tanarede-home.webp"
-                alt="Tela inicial mobile do Tá na Rede"
-                width="1080"
-                height="1920"
-                loading="lazy"
-                decoding="async">
-              <figcaption>Home do jogador</figcaption>
-            </figure>
-
-            <figure class="case-screen case-screen--profile">
-              <img
-                src="assets/tanarede-perfil.webp"
-                alt="Perfil esportivo mobile do Tá na Rede"
-                width="1080"
-                height="1920"
-                loading="lazy"
-                decoding="async">
-              <figcaption>Perfil e desempenho</figcaption>
-            </figure>
-          </div>
-
-          <div class="case-details">
-            <div class="case-detail reveal">
-              <h3>O produto</h3>
-              <p>Descoberta de partidas, organização da rotina esportiva, identidade do jogador e conexão entre quem joga e quem oferece espaço para jogar.</p>
-            </div>
-            <div class="case-detail reveal">
-              <h3>Comunidade</h3>
-              <p>Perfis esportivos, times, grupos, solicitações, desafios, partidas, notificações e fluxos para quem quer encontrar gente para jogar.</p>
-            </div>
-            <div class="case-detail reveal">
-              <h3>Arenas e reservas</h3>
-              <p>Agenda, horários, reservas, gestão de quadras e recursos voltados para aproximar os espaços esportivos dos jogadores.</p>
-            </div>
-            <div class="case-detail reveal">
-              <h3>Depois do jogo</h3>
-              <p>Resultados, estatísticas, votação de craque, conteúdo compartilhável e histórico para o perfil do jogador continuar contando a história da partida.</p>
-            </div>
-            <div class="case-detail reveal">
-              <h3>Stack</h3>
-              <p>Django, Python, PostgreSQL, Nginx e Gunicorn, com deploy em VPS e evolução contínua do produto em produção.</p>
-            </div>
-          </div>
-
-          <div class="case-exit reveal">
-            <p>Do primeiro model ao servidor: eu construí o Tá na Rede como produto, não como peça de apresentação.</p>
-            <a href="https://www.usetanarede.com.br/" target="_blank" rel="noreferrer">
-              Abrir o Tá na Rede <span>↗</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section id="servicos" class="flow-section services-v3" aria-labelledby="services-heading">
-        <div class="flow-shell">
-          <header class="section-intro reveal">
-            <p class="section-label">O que eu faço</p>
-            <h2 id="services-heading">
-              Se precisa existir na web,
-              <em>eu gosto de descobrir como construir.</em>
-            </h2>
-            <p class="section-intro__text">
-              Nem todo projeto começa com uma especificação pronta. Às vezes começa com “preciso resolver isso”. É daí que eu gosto de partir.
+            <p>
+              Trabalho principalmente com Python e Django. Crio sites e sistemas, faço automações,
+              corrijo bugs e também gosto de pegar projeto que já existe, abrir tudo e descobrir por que
+              aquilo não está funcionando do jeito que deveria.
             </p>
-          </header>
 
-          <div class="service-list">
-            <article class="service-row reveal">
-              <h3>Sites institucionais</h3>
-              <p>Presença digital feita para a empresa parecer tão profissional na internet quanto ela é fora dela.</p>
-              <span aria-hidden="true">↗</span>
-            </article>
-            <article class="service-row reveal">
-              <h3>Landing pages</h3>
-              <p>Páginas com uma mensagem clara, identidade própria e um objetivo concreto — apresentar, vender ou captar contato.</p>
-              <span aria-hidden="true">↗</span>
-            </article>
-            <article class="service-row reveal">
-              <h3>Sistemas web</h3>
-              <p>Cadastros, painéis, regras de negócio, permissões, bancos de dados e fluxos feitos de acordo com a operação.</p>
-              <span aria-hidden="true">↗</span>
-            </article>
-            <article class="service-row reveal">
-              <h3>Automação</h3>
-              <p>Processos repetitivos transformados em fluxos mais rápidos, com integrações e lógica onde fizer sentido.</p>
-              <span aria-hidden="true">↗</span>
-            </article>
-            <article class="service-row reveal">
-              <h3>Revisão e evolução</h3>
-              <p>Entro em projetos que já existem para corrigir bugs, investigar comportamentos estranhos e melhorar o que está travando a experiência.</p>
-              <span aria-hidden="true">↗</span>
-            </article>
-            <article class="service-row reveal">
-              <h3>IA no fluxo de trabalho</h3>
-              <p>Estruturação de prompts e uso de IA para acelerar tarefas sem deixar a ferramenta decidir sozinha o que o projeto precisa ser.</p>
-              <span aria-hidden="true">↗</span>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="processo" class="flow-section workflow-v3" aria-labelledby="workflow-heading">
-        <div class="flow-shell">
-          <header class="section-intro section-intro--workflow reveal">
-            <p class="section-label">Como eu trabalho</p>
-            <h2 id="workflow-heading">Conversa primeiro.<br><em>Código depois.</em></h2>
-            <p class="section-intro__text">
-              Eu prefiro entender o problema antes de escolher a solução. A partir daí, o projeto vai ganhando forma com validação no caminho.
+            <p>
+              Inteligência artificial também faz parte do meu dia a dia. Eu estudo bastante como escrever
+              prompts melhores e como usar IA para acelerar trabalho sem deixar a ferramenta pensar no meu lugar.
             </p>
-          </header>
 
-          <div class="work-path reveal">
-            <article>
-              <h3>Entender</h3>
-              <p>Você me mostra a ideia, o problema e o que espera que aconteça quando alguém usar o projeto.</p>
-            </article>
-            <article>
-              <h3>Organizar</h3>
-              <p>Eu transformo isso em estrutura: telas, prioridades, regras e o que realmente precisa existir.</p>
-            </article>
-            <article>
-              <h3>Construir</h3>
-              <p>Desenvolvimento visual e técnico andando juntos, sem esconder o projeto até o último dia.</p>
-            </article>
-            <article>
-              <h3>Testar</h3>
-              <p>Eu verifico o fluxo real, principalmente no celular, e corrijo o que estiver pesado, confuso ou quebrado.</p>
-            </article>
-            <article>
-              <h3>Colocar no ar</h3>
-              <p>Deploy, domínio e ajustes finais para entregar algo que você consiga de fato abrir, usar e mostrar.</p>
-            </article>
+            <p>
+              E como um assunto só nunca foi suficiente, também estudo cibersegurança e Internet das Coisas.
+              Gosto dessa parte de entender o que acontece por trás da tela — seja num sistema web, numa automação
+              ou em dispositivos conectados.
+            </p>
+
+            <blockquote>
+              No fim, o que eu mais gosto é simples:
+              <strong>você me traz uma ideia e eu tento fazer ela existir.</strong>
+            </blockquote>
+          </div>
+
+          <aside class="about-margin-note reveal">
+            <span>anotação de margem</span>
+            <p>
+              Não sou o cara que vai te pedir um briefing de 12 páginas antes de conversar.
+              Pode começar explicando do seu jeito.
+            </p>
+            <svg aria-hidden="true" viewBox="0 0 120 70">
+              <path d="M7 48C35 68 69 55 91 29" />
+              <path d="M84 31L95 25L93 38" />
+            </svg>
+          </aside>
+        </div>
+
+        <div class="skills-line reveal" aria-label="Tecnologias e interesses">
+          <span>Python</span>
+          <span>Django</span>
+          <span>PostgreSQL</span>
+          <span>automação</span>
+          <span>IA</span>
+          <span>cybersegurança</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="tanarede" class="tanarede-paper">
+      <div class="paper-shell">
+        <div class="tanarede-title reveal">
+          <p class="eyebrow-light">meu projeto mais importante até agora</p>
+          <h2>Tá na Rede.</h2>
+          <p class="tanarede-title__aside">
+            começou com uma ideia.<br>
+            depois vieram uns bons milhares de linhas de código.
+          </p>
+        </div>
+
+        <div class="tanarede-story reveal">
+          <p class="tanarede-story__big">
+            Eu criei o Tá na Rede do zero para juntar em um lugar só quem quer jogar,
+            organizar partida, montar time e encontrar onde jogar.
+          </p>
+          <p>
+            Hoje o projeto tem área de jogador, perfis esportivos, partidas, grupos, times,
+            arenas, reservas, resultados, estatísticas, votação de craque e um monte de coisa
+            que foi aparecendo conforme o produto foi ficando mais real.
+          </p>
+        </div>
+
+        <div class="tanarede-screens reveal">
+          <figure class="tn-screen tn-screen--home">
+            <img
+              src="assets/tanarede-home.webp"
+              alt="Tela inicial do Tá na Rede"
+              width="1080"
+              height="1920"
+              loading="lazy"
+              decoding="async">
+            <figcaption>a home do jogador</figcaption>
+          </figure>
+
+          <div class="tanarede-middle-note">
+            <p>feito com</p>
+            <strong>Django</strong>
+            <strong>PostgreSQL</strong>
+            <strong>Nginx + Gunicorn</strong>
+            <strong>VPS</strong>
+            <span>e muita revisão no celular.</span>
+          </div>
+
+          <figure class="tn-screen tn-screen--profile">
+            <img
+              src="assets/tanarede-perfil.webp"
+              alt="Perfil esportivo do Tá na Rede"
+              width="1080"
+              height="1920"
+              loading="lazy"
+              decoding="async">
+            <figcaption>perfil, números e história do jogador</figcaption>
+          </figure>
+        </div>
+
+        <div class="tanarede-marquee" aria-hidden="true">
+          <div>
+            jogadores • partidas • times • grupos • arenas • reservas • estatísticas •
+            jogadores • partidas • times • grupos • arenas • reservas • estatísticas •
           </div>
         </div>
-      </section>
 
-      <section id="contato" class="flow-section contact-v3" aria-labelledby="contact-heading">
-        <div class="flow-shell contact-v3__shell">
-          <p class="section-label reveal">Contato</p>
-          <div class="contact-v3__main reveal">
-            <h2 id="contact-heading">
-              Se a ideia ainda está só
-              <em>na sua cabeça, já dá para começar por ela.</em>
-            </h2>
-            <p>Me explica o que você quer fazer. Eu te digo como eu enxergaria o projeto e por onde começaria.</p>
+        <div class="tanarede-bottom reveal">
+          <p>
+            O melhor desse projeto é que ele me obriga a pensar além da tela bonita:
+            regra de negócio, banco, autenticação, deploy, performance, mobile, erro em produção
+            e usuário fazendo exatamente o que eu não imaginava que ele faria.
+          </p>
+
+          <a href="https://www.usetanarede.com.br/" target="_blank" rel="noreferrer">
+            abrir o Tá na Rede ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="trabalho" class="work-paper">
+      <div class="paper-shell">
+        <header class="paper-heading paper-heading--work reveal">
+          <p class="eyebrow-light">o que você pode me mandar no WhatsApp</p>
+          <h2>Eu preciso de…</h2>
+        </header>
+
+        <div class="needs-list">
+          <article class="need-row need-row--blue reveal">
+            <h3>“um site que não pareça igual a todos.”</h3>
+            <p>institucional, landing page, portfólio ou uma página feita para apresentar uma ideia direito.</p>
+          </article>
+
+          <article class="need-row need-row--yellow reveal">
+            <h3>“um sistema, mas ainda está meio bagunçado na minha cabeça.”</h3>
+            <p>eu ajudo a organizar fluxo, tela, regra, usuário, banco de dados e o que precisa acontecer por trás.</p>
+          </article>
+
+          <article class="need-row need-row--pink reveal">
+            <h3>“isso aqui está quebrando e eu não sei por quê.”</h3>
+            <p>bug, comportamento estranho, layout torto, fluxo que parou de funcionar ou código que precisa de revisão.</p>
+          </article>
+
+          <article class="need-row need-row--green reveal">
+            <h3>“eu faço isso na mão todo santo dia.”</h3>
+            <p>aí provavelmente vale olhar para uma automação.</p>
+          </article>
+
+          <article class="need-row need-row--coral reveal">
+            <h3>“o sistema existe, mas dá para ficar muito melhor.”</h3>
+            <p>melhoria de interface, performance, experiência no celular e novas funcionalidades.</p>
+          </article>
+        </div>
+
+        <p class="work-footnote reveal">
+          Em português de orçamento: sites, sistemas web, automações, manutenção e evolução de produto.
+        </p>
+      </div>
+    </section>
+
+    <section id="processo" class="process-paper">
+      <div class="paper-shell">
+        <header class="paper-heading reveal">
+          <p class="eyebrow-light">como eu gosto de trabalhar</p>
+          <h2>Não tenho um<br><em>ritual secreto.</em></h2>
+        </header>
+
+        <div class="process-intro reveal">
+          <p>
+            Você não precisa chegar com tudo pronto. Me explica o que quer resolver,
+            eu faço perguntas, a gente organiza e começa pelo que realmente importa.
+          </p>
+        </div>
+
+        <div class="process-route reveal">
+          <svg class="process-route__line" aria-hidden="true" viewBox="0 0 1200 260" preserveAspectRatio="none">
+            <path d="M38 173C171 45 308 234 439 129C588 10 704 222 860 118C981 37 1080 76 1161 38" />
+          </svg>
+
+          <div class="route-stop route-stop--idea">
+            <strong>você conta</strong>
+            <span>a ideia, o problema ou o “não sei explicar direito”.</span>
           </div>
 
-          <div class="contact-v3__links reveal">
-            <a class="contact-primary" href="https://wa.me/5555999513788?text=Ol%C3%A1%20Victor%2C%20quero%20falar%20sobre%20um%20projeto." target="_blank" rel="noreferrer">
-              Falar comigo no WhatsApp <span>↗</span>
-            </a>
-            <a href="mailto:victoreduardo.ggoncalves@outlook.com.br">victoreduardo.ggoncalves@outlook.com.br</a>
-            <a href="https://github.com/Victor-gon-code" target="_blank" rel="noreferrer">GitHub <span>↗</span></a>
+          <div class="route-stop route-stop--questions">
+            <strong>eu pergunto</strong>
+            <span>até a coisa parar de parecer nebulosa.</span>
+          </div>
+
+          <div class="route-stop route-stop--build">
+            <strong>eu construo</strong>
+            <span>e você vai vendo antes de chegar no final.</span>
+          </div>
+
+          <div class="route-stop route-stop--test">
+            <strong>a gente testa</strong>
+            <span>principalmente onde costuma dar ruim: no uso real.</span>
+          </div>
+
+          <div class="route-stop route-stop--live">
+            <strong>vai pro ar</strong>
+            <span>e, se precisar, continua evoluindo depois.</span>
           </div>
         </div>
-      </section>
 
-      <footer class="site-footer-v3">
-        <a href="#inicio">Victor Eduardo.</a>
-        <p>Desenvolvimento web • Sistemas • Automação • Produtos digitais</p>
-        <span>© <span id="year"></span></span>
-      </footer>
-    </div>
+        <div class="process-dialogue reveal">
+          <span>você — “posso mandar a ideia meio torta?”</span>
+          <strong>eu — pode. na verdade, começa daí.</strong>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato" class="contact-paper">
+      <div class="paper-shell">
+        <p class="contact-paper__small reveal">fim da página, começo da conversa</p>
+
+        <h2 class="reveal">
+          Pode mandar a ideia
+          <span>torta mesmo.</span>
+        </h2>
+
+        <p class="contact-paper__copy reveal">
+          Não precisa fazer briefing bonito. Texto, áudio, referência, rabisco —
+          me mostra o que você está pensando e a gente começa por aí.
+        </p>
+
+        <div class="contact-paper__links reveal">
+          <a class="contact-paper__whatsapp"
+             href="https://wa.me/5555999513788?text=Ol%C3%A1%20Victor%2C%20quero%20falar%20sobre%20um%20projeto."
+             target="_blank"
+             rel="noreferrer">
+            falar comigo no WhatsApp ↗
+          </a>
+
+          <a href="mailto:victoreduardo.ggoncalves@outlook.com.br">
+            victoreduardo.ggoncalves@outlook.com.br
+          </a>
+
+          <a href="https://github.com/Victor-gon-code" target="_blank" rel="noreferrer">
+            github.com/Victor-gon-code ↗
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <script src="script.js?v=20260926-human1" defer></script>
+  <footer class="footer-paper">
+    <a href="#inicio">victor.eduardo</a>
+    <p>feito com código, café e revisões demais</p>
+    <span>© <span id="year"></span></span>
+  </footer>
+
+  <script src="script.js?v=20260926-paper1" defer></script>
 </body>
 </html>
