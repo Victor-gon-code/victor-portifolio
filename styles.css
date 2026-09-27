@@ -510,7 +510,7 @@ svg{
 
 .about-margin-note{
   position:absolute;
-  left:-4%;
+  left:8px;
   bottom:-34px;
   width:min(270px,23vw);
   padding:18px 18px 16px;
@@ -1222,10 +1222,10 @@ svg{
   }
 
   .hero-paper__scribble{
-    right:-8%;
+    right:2%;
     bottom:8%;
-    width:165px;
-    opacity:.65;
+    width:145px;
+    opacity:.62;
   }
 
   .hero-paper__footer{
