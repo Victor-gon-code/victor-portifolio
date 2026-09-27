@@ -1,53 +1,70 @@
 # Victor Eduardo — Portfólio
 
-Portfólio profissional de **Victor Eduardo**, desenvolvedor web focado em sites, sistemas, automações e produtos digitais.
+Portfólio pessoal de **Victor Eduardo**, desenvolvedor web focado em sites, sistemas, automações e produtos digitais.
 
-## Direção do projeto
+## Direção visual
 
-A primeira tela mantém a constelação como assinatura visual do portfólio. A partir dela, o site segue uma direção editorial mais sóbria e autoral, com tipografia forte, conteúdo real e poucas interações bem escolhidas.
+A versão atual abandonou completamente o visual escuro anterior.
 
-O objetivo da interface é evitar aparência de template: sem grades de cards repetitivos, sem numeração artificial de etapas e sem efeitos usados apenas como decoração.
+O site agora segue uma linguagem clara, colorida e mais pessoal, inspirada em portfólios editoriais, zines e páginas experimentais que usam tipografia, espaço vazio, humor e pequenos detalhes interativos como identidade — sem depender de cards repetitivos, glassmorphism, gradientes neon ou estruturas numeradas.
+
+A ideia principal é parecer um site de uma pessoa, não um template de produto.
+
+## Estrutura do site
+
+- apresentação pessoal direta e informal;
+- seção "Sobre" com retrato real e texto em voz natural;
+- case do Tá na Rede com telas reais do produto;
+- serviços explicados através de frases que um cliente realmente poderia mandar;
+- processo sem etapas numeradas;
+- contato com linguagem simples e direta;
+- pequeno easter egg para trocar a cor dos detalhes da interface.
 
 ## Projeto em destaque
 
 ### Tá na Rede
 
-Produto SaaS esportivo criado do zero para conectar jogadores, partidas, times, grupos e arenas.
+SaaS esportivo criado do zero para conectar jogadores, partidas, times, grupos e arenas.
 
-O portfólio trata o Tá na Rede como um case real de produto: telas verdadeiras, recursos implementados, stack e contexto de desenvolvimento, em vez de mockups genéricos.
+O case usa telas reais e explica o produto de forma simples, incluindo a stack e os aprendizados de desenvolvimento, deploy e uso mobile.
 
 ## Stack do portfólio
 
 - HTML sem framework
 - CSS responsivo
 - JavaScript nativo
-- Google Fonts: Instrument Serif + DM Sans
-- IntersectionObserver
-- requestAnimationFrame para a navegação em constelação
+- Google Fonts:
+  - Bricolage Grotesque
+  - Newsreader
+  - IBM Plex Mono
+- IntersectionObserver para revelações leves e navegação
 - suporte a `prefers-reduced-motion`
 - SEO básico, Open Graph, Twitter Card e JSON-LD
-- layout próprio para desktop, tablet e mobile
 
-## Estrutura
+## Arquivos principais
 
-- `index.html` — conteúdo, semântica e SEO
-- `styles.css` — base original, hero e constelação
-- `site-v3.css` — sistema visual editorial do restante do portfólio
-- `script.js` — constelação, navegação e revelação progressiva
-- `assets/hero-final.webp` — arte principal
-- `assets/victor-editorial.png` — retrato original em alta resolução
-- `assets/tanarede-home.webp` e `assets/tanarede-perfil.webp` — telas reais do Tá na Rede
-- `favicon.svg` — favicon
-- `robots.txt` e `sitemap.xml` — indexação
+- `index.html` — estrutura e conteúdo
+- `styles.css` — sistema visual completo
+- `script.js` — navegação, revelações e pequenos detalhes interativos
+- `assets/victor-editorial.png` — retrato original
+- `assets/tanarede-home.webp`
+- `assets/tanarede-perfil.webp`
+- `favicon.svg`
+- `robots.txt`
+- `sitemap.xml`
 
-## Executar localmente
+## Rodar localmente
 
 ```bash
 python -m http.server 8000
 ```
 
-Depois abra `http://localhost:8000`.
+Abra:
+
+```
+http://localhost:8000
+```
 
 ## Produção
 
-Domínio principal: **victoreduardodev.tech**
+**https://victoreduardodev.tech**
