@@ -2474,3 +2474,212 @@ img,svg{display:block;max-width:100%}
     transform:none!important;
   }
 }
+
+
+/* === Editorial portrait/content pass · 2026-09-26 ==========================
+   Real portrait + Victor's own story. Intentional asymmetry is preserved:
+   this should read like a magazine spread, not a centered landing-page block. */
+
+.editorial-photo img{
+  object-position:50% 38%;
+  filter:saturate(.90) contrast(1.035) brightness(.96);
+}
+.editorial-photo::after{
+  content:"VICTOR EDUARDO / 2026";
+  position:absolute;
+  right:14px;
+  bottom:14px;
+  z-index:3;
+  padding:6px 8px;
+  background:rgba(3,8,13,.72);
+  color:rgba(235,242,241,.82);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:7px;
+  letter-spacing:.16em;
+}
+
+.editorial-copy p + p{
+  margin-top:1.45em;
+}
+.editorial-copy--lead{
+  grid-column:1 / 5;
+  grid-row:2 / 3;
+  align-self:end;
+  max-width:455px;
+  margin-top:clamp(46px,8vw,120px);
+  color:#c4cecf;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(17px,1.55vw,23px);
+  line-height:1.54;
+  letter-spacing:-.018em;
+}
+.editorial-copy--lead p::first-letter{
+  float:left;
+  margin:.02em .10em 0 0;
+  color:#edf3f2;
+  font-family:"Iowan Old Style","Palatino Linotype",serif;
+  font-size:3.45em;
+  line-height:.78;
+}
+.editorial-index{
+  grid-column:1 / 3;
+  grid-row:3;
+  align-self:center;
+  transform:translateY(32px) rotate(-3deg);
+}
+.editorial-index span{
+  font-size:clamp(62px,7vw,104px);
+  color:#d8e0df;
+}
+.editorial-index small{
+  color:#60757a;
+}
+.editorial-quote{
+  grid-column:8 / 13;
+  grid-row:3;
+  align-self:end;
+  z-index:5;
+  margin:0 0 -14px -17%;
+  padding-left:clamp(16px,2vw,30px);
+  border-left:1px solid rgba(183,211,211,.18);
+  color:#eef3f2;
+  font-size:clamp(34px,4.2vw,66px);
+  line-height:.96;
+  text-wrap:balance;
+  transform:rotate(-1.1deg);
+}
+.editorial-quote>span[aria-hidden="true"]{
+  margin-left:-.10em;
+  color:#60797c;
+}
+.editorial-copy--side{
+  grid-column:2 / 6;
+  grid-row:4;
+  align-self:start;
+  max-width:395px;
+  margin:clamp(12px,2vw,30px) 0 0 6%;
+  color:#98a9ac;
+  font-size:clamp(12.5px,1.05vw,15px);
+  line-height:1.82;
+  transform:rotate(-.45deg);
+}
+.editorial-copy--bottom{
+  grid-column:8 / 12;
+  grid-row:4;
+  align-self:end;
+  max-width:410px;
+  margin:clamp(48px,8vw,120px) 0 0 8%;
+  padding:18px 0 0 22px;
+  border-left:1px solid rgba(171,204,203,.13);
+  color:#a9b6b8;
+  font-size:clamp(12.5px,1.02vw,14.5px);
+  line-height:1.78;
+  transform:translateY(36px) rotate(.55deg);
+}
+.editorial-caption{
+  grid-column:10 / 13;
+  grid-row:4;
+  align-self:end;
+  margin:0 0 -54px 16%;
+  transform:rotate(-1deg);
+}
+
+@media (max-width:980px){
+  .editorial-copy--lead{
+    grid-column:1 / 4;
+    grid-row:2 / 3;
+    margin-top:110px;
+    font-size:17px;
+  }
+  .editorial-index{
+    grid-column:1 / 3;
+    grid-row:3;
+  }
+  .editorial-quote{
+    grid-column:6 / 9;
+    grid-row:3;
+    margin-left:-34%;
+  }
+  .editorial-copy--side{
+    grid-column:1 / 4;
+    grid-row:4;
+    margin-left:7%;
+  }
+  .editorial-copy--bottom{
+    grid-column:6 / 9;
+    grid-row:4;
+    margin:120px 0 0 -20%;
+  }
+  .editorial-caption{
+    grid-column:6 / 9;
+    grid-row:5;
+    margin:34px 0 0 18%;
+  }
+}
+
+@media (max-width:680px){
+  .editorial-photo{
+    width:84%;
+    margin-left:2%;
+  }
+  .editorial-photo img{
+    object-position:50% 35%;
+  }
+  .editorial-photo::after{
+    right:10px;
+    bottom:10px;
+    font-size:6px;
+  }
+  .editorial-note{
+    width:43%;
+    margin:-40px 3% 0 auto;
+  }
+  .editorial-copy--lead{
+    width:79%;
+    max-width:none;
+    margin:70px 0 0 2%;
+    font-size:16.5px;
+    line-height:1.58;
+  }
+  .editorial-copy--lead p::first-letter{
+    font-size:3.1em;
+  }
+  .editorial-index{
+    width:35%;
+    margin:46px 0 0 auto;
+    transform:rotate(3deg);
+  }
+  .editorial-quote{
+    width:91%;
+    margin:28px 0 0 8%;
+    padding:20px 0 0 14px;
+    font-size:clamp(34px,10.7vw,50px);
+  }
+  .editorial-copy--side{
+    width:69%;
+    max-width:none;
+    margin:54px 0 0 24%;
+    font-size:12.6px;
+    line-height:1.76;
+    transform:rotate(.35deg);
+  }
+  .editorial-copy--bottom{
+    width:76%;
+    max-width:none;
+    margin:58px 0 0 4%;
+    padding:14px 0 0 16px;
+    font-size:12.5px;
+    transform:rotate(-.4deg);
+  }
+  .editorial-caption{
+    width:50%;
+    margin:46px 4% 0 auto;
+    transform:rotate(1deg);
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .editorial-copy--bottom{
+    transform:none!important;
+  }
+}
