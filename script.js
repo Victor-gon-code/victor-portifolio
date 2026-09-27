@@ -2,345 +2,153 @@
   "use strict";
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const root = document.documentElement;
-  const starLinks = Array.from(document.querySelectorAll(".star-link"));
-  const linePaths = Array.from(document.querySelectorAll(".constellation-lines path"));
-  const lineSvg = document.getElementById("constellation-lines");
-  const morphHeader = document.getElementById("morph-header");
-  const morphBrand = document.querySelector(".morph-brand");
-  const morphContact = document.querySelector(".morph-contact");
-  const sections = Array.from(document.querySelectorAll("main section[id]"));
   const year = document.getElementById("year");
+  const stamp = document.querySelector(".color-stamp");
+  const navLinks = Array.from(document.querySelectorAll(".topnav a"));
+  const trackedSections = Array.from(document.querySelectorAll("main section[id]"));
 
-  if (year) year.textContent = new Date().getFullYear();
-
-  [morphBrand, morphContact].forEach((element) => {
-    if (element) element.tabIndex = -1;
-  });
-
-  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-  const smoothstep = (t) => t * t * (3 - 2 * t);
-  const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
-  const mix = (a, b, t) => a + (b - a) * t;
-
-  let stableMobileHeight = window.innerHeight;
-  let viewport = { width: window.innerWidth, height: window.innerHeight };
-  let currentPositions = [];
-  let cachedRest = [];
-  let cachedTargets = [];
-  let cachedStarCenters = [];
-  let geometryDirty = true;
-  let rafPending = false;
-  let lastMorphProgress = -1;
-  let lastLayoutMode = "";
-
-  const HERO_IMAGE = { width: 1672, height: 941 };
-  const HERO_POINTS = [
-    [1171 / 1672, 514 / 941],
-    [1240 / 1672, 148 / 941],
-    [1343 / 1672, 322 / 941],
-    [1478 / 1672, 234 / 941],
-    [1490 / 1672, 536 / 941]
-  ];
-
-  function heroImagePoint(nx, ny) {
-    const w = viewport.width;
-    const h = viewport.height;
-    const scale = Math.max(w / HERO_IMAGE.width, h / HERO_IMAGE.height);
-    const renderedWidth = HERO_IMAGE.width * scale;
-    const renderedHeight = HERO_IMAGE.height * scale;
-    const offsetX = (w - renderedWidth) / 2;
-    const offsetY = (h - renderedHeight) / 2;
-
-    return [
-      offsetX + nx * renderedWidth,
-      offsetY + ny * renderedHeight
-    ];
+  if (year) {
+    year.textContent = new Date().getFullYear();
   }
 
-  function restingPositions() {
-    const w = viewport.width;
-    const h = viewport.height;
-
-    if (w <= 480) {
-      return [
-        [w * 0.14, h * 0.89],
-        [w * 0.32, h * 0.77],
-        [w * 0.50, h * 0.87],
-        [w * 0.68, h * 0.77],
-        [w * 0.86, h * 0.89]
-      ];
-    }
-
-    if (w <= 820) {
-      return [
-        [w * 0.13, h * 0.86],
-        [w * 0.315, h * 0.73],
-        [w * 0.50, h * 0.84],
-        [w * 0.685, h * 0.72],
-        [w * 0.87, h * 0.86]
-      ];
-    }
-
-    return HERO_POINTS.map(([x, y]) => heroImagePoint(x, y));
+  function headerOffset() {
+    const header = document.querySelector(".topbar");
+    return (header?.offsetHeight || 0) + 14;
   }
 
-  function targetPositions() {
-    const w = viewport.width;
-
-    if (w <= 480) {
-      return [0.09, 0.295, 0.50, 0.705, 0.91].map((x) => [w * x, 67]);
-    }
-
-    if (w <= 820) {
-      return [0.10, 0.30, 0.50, 0.70, 0.90].map((x) => [w * x, 68]);
-    }
-
-    const xs = w < 1120
-      ? [0.35, 0.445, 0.54, 0.635, 0.73]
-      : [0.34, 0.445, 0.55, 0.655, 0.76];
-
-    return xs.map((x) => [w * x, 41]);
-  }
-
-  function morphProgress() {
-    if (reducedMotion) return window.scrollY > 24 ? 1 : 0;
-
-    const factor = viewport.width <= 480 ? 0.78 : viewport.width <= 820 ? 0.74 : 0.72;
-    const minimum = viewport.width <= 480 ? 540 : viewport.width <= 820 ? 560 : 520;
-    const distance = Math.max(viewport.height * factor, minimum);
-
-    return clamp(window.scrollY / distance, 0, 1);
-  }
-
-  function measureStarCenters() {
-    cachedStarCenters = starLinks.map((link) => {
-      const star = link.querySelector(".star-link__star");
-
-      return [
-        star ? star.offsetLeft + star.offsetWidth / 2 : (link.offsetWidth || 90) / 2,
-        star ? star.offsetTop + star.offsetHeight / 2 : (link.offsetHeight || 24) / 2
-      ];
-    });
-  }
-
-  function refreshGeometry() {
-    const width = window.innerWidth;
-    const rawHeight = window.innerHeight;
-    const widthChanged = Math.abs(width - viewport.width) > 24;
-
-    /*
-     * Mobile browsers continuously change innerHeight while their address bar
-     * opens/closes. Keeping one stable hero height prevents the stars from
-     * changing course in the middle of a scroll.
-     */
-    if (width > 820 || widthChanged) {
-      stableMobileHeight = rawHeight;
-    }
-
-    viewport = {
-      width,
-      height: width <= 820 ? stableMobileHeight : rawHeight
-    };
-
-    cachedRest = restingPositions();
-    cachedTargets = targetPositions();
-    measureStarCenters();
-    geometryDirty = false;
-  }
-
-  function setNavPosition(link, index, x, y, scale) {
-    const center = cachedStarCenters[index] || [22, 22];
-
-    link.style.transformOrigin =
-      center[0].toFixed(2) + "px " + center[1].toFixed(2) + "px";
-
-    link.style.transform =
-      "translate3d(" + (x - center[0]).toFixed(2) + "px," +
-      (y - center[1]).toFixed(2) + "px,0) scale(" + scale.toFixed(3) + ")";
-  }
-
-  function updateLines(progress) {
-    const w = viewport.width;
-    const h = viewport.height;
-
-    lineSvg.setAttribute("viewBox", "0 0 " + w + " " + h);
-
-    const drawT = smoothstep(clamp((progress - 0.005) / 0.11, 0, 1));
-    const fadeT = smoothstep(clamp((progress - 0.16) / 0.46, 0, 1));
-    const opacity = mix(0, 0.38, drawT) * (1 - fadeT);
-
-    if (opacity < 0.002) {
-      linePaths.forEach((path) => {
-        path.style.opacity = "0";
-      });
-      return;
-    }
-
-    linePaths.forEach((path, index) => {
-      const start = currentPositions[index];
-      const end = currentPositions[index + 1];
-      if (!start || !end) return;
-
-      path.setAttribute(
-        "d",
-        "M " + start[0].toFixed(2) + " " + start[1].toFixed(2) +
-        " L " + end[0].toFixed(2) + " " + end[1].toFixed(2)
-      );
-
-      const length = Math.max(
-        1,
-        Math.hypot(end[0] - start[0], end[1] - start[1])
-      );
-
-      path.style.strokeDasharray = length.toFixed(2) + " " + length.toFixed(2);
-      path.style.strokeDashoffset = (length * (1 - drawT)).toFixed(2);
-      path.style.opacity = opacity.toFixed(3);
-    });
-  }
-
-  function updateMorph() {
-    rafPending = false;
-
-    const raw = morphProgress();
-    const layoutMode = raw >= 0.76 ? "header" : "hero";
-
-    if (
-      !geometryDirty &&
-      Math.abs(raw - lastMorphProgress) < 0.0005 &&
-      layoutMode === lastLayoutMode
-    ) {
-      return;
-    }
-
-    const transitioning = raw > 0.002 && raw < 0.76;
-    const headerReady = raw >= 0.76;
-
-    document.body.classList.toggle("header-transitioning", transitioning);
-    document.body.classList.toggle("header-ready", headerReady);
-    document.body.classList.remove("constellation-formed");
-
-    if (geometryDirty) {
-      refreshGeometry();
-    } else if (layoutMode !== lastLayoutMode) {
-      measureStarCenters();
-    }
-
-    const alignT = easeOutCubic(clamp(raw / 0.72, 0, 1));
-
-    currentPositions = starLinks.map((link, index) => {
-      const x = mix(cachedRest[index][0], cachedTargets[index][0], alignT);
-      const y = mix(cachedRest[index][1], cachedTargets[index][1], alignT);
-      const scale = mix(1, viewport.width <= 820 ? 0.92 : 0.9, alignT);
-
-      setNavPosition(link, index, x, y, scale);
-      return [x, y];
-    });
-
-    updateLines(raw);
-
-    const headerProgress = smoothstep(clamp((raw - 0.48) / 0.30, 0, 1));
-    root.style.setProperty("--header-progress", headerProgress.toFixed(3));
-
-    if (morphHeader) {
-      morphHeader.setAttribute("aria-hidden", headerReady ? "false" : "true");
-    }
-
-    [morphBrand, morphContact].forEach((element) => {
-      if (element) element.tabIndex = headerReady ? 0 : -1;
-    });
-
-    lastMorphProgress = raw;
-    lastLayoutMode = layoutMode;
-  }
-
-  function requestMorphUpdate() {
-    if (rafPending) return;
-
-    const raw = morphProgress();
-    if (!geometryDirty && raw >= 1 && lastMorphProgress >= 1) return;
-
-    rafPending = true;
-    requestAnimationFrame(updateMorph);
-  }
-
-  window.addEventListener("scroll", requestMorphUpdate, { passive: true });
-
-  window.addEventListener("resize", () => {
-    const widthChanged = Math.abs(window.innerWidth - viewport.width) > 2;
-
-    if (window.innerWidth <= 820 && !widthChanged) return;
-
-    geometryDirty = true;
-    lastMorphProgress = -1;
-    requestMorphUpdate();
-  }, { passive: true });
-
-  function scrollToSection(target, updateHash = true) {
+  function goTo(target, updateHash = true) {
     if (!target) return;
 
-    const offset = viewport.width <= 820 ? 132 : 82;
-    const top = target.getBoundingClientRect().top + window.scrollY - offset + 1;
+    const top =
+      target.getBoundingClientRect().top +
+      window.scrollY -
+      headerOffset();
 
     window.scrollTo({
       top,
       behavior: reducedMotion ? "auto" : "smooth"
     });
 
-    if (updateHash) {
+    if (updateHash && target.id) {
       history.replaceState(null, "", "#" + target.id);
     }
   }
 
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener("click", (event) => {
-      const id = link.getAttribute("href")?.slice(1);
-      if (!id) return;
+      const href = link.getAttribute("href");
+      if (!href || href === "#") return;
 
-      const target = document.getElementById(id);
+      const target = document.querySelector(href);
       if (!target) return;
 
       event.preventDefault();
-      scrollToSection(target);
+      goTo(target);
     });
   });
 
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("is-visible");
-      revealObserver.unobserve(entry.target);
+  if (reducedMotion) {
+    document.querySelectorAll(".reveal").forEach((element) => {
+      element.classList.add("is-visible");
     });
-  }, {
-    threshold: 0.01,
-    rootMargin: "120px 0px 30px 0px"
-  });
+  } else {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.04,
+        rootMargin: "100px 0px 20px 0px"
+      }
+    );
 
-  document.querySelectorAll(".reveal").forEach((element) => {
-    revealObserver.observe(element);
-  });
-
-  const activeObserver = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter((entry) => entry.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-    if (!visible.length) return;
-
-    const id = visible[0].target.id;
-
-    starLinks.forEach((link) => {
-      link.classList.toggle("is-active", link.dataset.target === id);
+    document.querySelectorAll(".reveal").forEach((element) => {
+      revealObserver.observe(element);
     });
-  }, {
-    threshold: [0.20, 0.42, 0.68],
-    rootMargin: "-18% 0px -55% 0px"
+  }
+
+  const sectionObserver = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+      if (!visible.length) return;
+
+      const currentId = visible[0].target.id;
+
+      navLinks.forEach((link) => {
+        const href = link.getAttribute("href");
+        link.classList.toggle("is-active", href === "#" + currentId);
+      });
+    },
+    {
+      threshold: [0.18, 0.35, 0.6],
+      rootMargin: "-18% 0px -56% 0px"
+    }
+  );
+
+  trackedSections.forEach((section) => {
+    if (section.id !== "inicio" && section.id !== "contato") {
+      sectionObserver.observe(section);
+    }
   });
 
-  sections
-    .filter((section) => section.id !== "inicio")
-    .forEach((section) => activeObserver.observe(section));
+  if (stamp) {
+    const accents = ["blue", "green", "coral"];
+    let index = 0;
 
-  refreshGeometry();
-  requestMorphUpdate();
+    stamp.addEventListener("click", () => {
+      index = (index + 1) % accents.length;
+      const next = accents[index];
+
+      if (next === "blue") {
+        document.body.removeAttribute("data-accent");
+      } else {
+        document.body.setAttribute("data-accent", next);
+      }
+
+      stamp.animate(
+        [
+          { transform: "rotate(0deg) scale(1)" },
+          { transform: "rotate(18deg) scale(1.12)" },
+          { transform: "rotate(-4deg) scale(.98)" },
+          { transform: "rotate(0deg) scale(1)" }
+        ],
+        {
+          duration: reducedMotion ? 0 : 360,
+          easing: "cubic-bezier(.2,.8,.2,1)"
+        }
+      );
+    });
+  }
+
+  const note = document.querySelector(".hero-note");
+
+  if (note && !reducedMotion && window.matchMedia("(hover:hover)").matches) {
+    const hero = document.querySelector(".hero-paper");
+    let frame = null;
+
+    hero?.addEventListener("pointermove", (event) => {
+      if (frame) cancelAnimationFrame(frame);
+
+      frame = requestAnimationFrame(() => {
+        const rect = hero.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        note.style.transform =
+          "rotate(" + (2.4 + x * 1.8).toFixed(2) + "deg) " +
+          "translate3d(" + (x * 5).toFixed(1) + "px," + (y * 5).toFixed(1) + "px,0)";
+      });
+    });
+
+    hero?.addEventListener("pointerleave", () => {
+      note.style.transform = "";
+    });
+  }
 })();
