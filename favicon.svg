@@ -1,18 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <defs>
-    <radialGradient id="g">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset=".28" stop-color="#bfffea"/>
-      <stop offset="1" stop-color="#19e39f"/>
-    </radialGradient>
-    <filter id="b"><feGaussianBlur stdDeviation="2.2"/></filter>
-  </defs>
-  <rect width="64" height="64" rx="16" fill="#05080d"/>
-  <path d="M10 18 L21 43 L32 28 L43 43 L54 18" fill="none" stroke="#5ff5c4" stroke-opacity=".24"/>
-  <circle cx="10" cy="18" r="4.2" fill="url(#g)"/>
-  <circle cx="21" cy="43" r="3.4" fill="url(#g)"/>
-  <circle cx="32" cy="28" r="4.4" fill="url(#g)"/>
-  <circle cx="43" cy="43" r="3.4" fill="url(#g)"/>
-  <circle cx="54" cy="18" r="4.2" fill="url(#g)"/>
-  <circle cx="32" cy="28" r="10" fill="#5ff5c4" opacity=".12" filter="url(#b)"/>
+  <rect width="64" height="64" fill="#f7f1e7"/>
+  <path d="M32 5 37 20 50 11 45 26 61 25 48 35 60 44 44 42 45 59 35 46 27 60 27 44 10 49 20 36 4 31 21 27 13 13 27 21Z"
+        fill="#3657ff"
+        stroke="#18213b"
+        stroke-width="2"
+        stroke-linejoin="round"/>
+  <circle cx="32" cy="32" r="5.5" fill="#ffd95c" stroke="#18213b" stroke-width="2"/>
 </svg>
