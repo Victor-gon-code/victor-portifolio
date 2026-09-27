@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260926-paper1">
+  <link rel="stylesheet" href="styles.css?v=20260926-paper2">
 
   <script type="application/ld+json">
   {
@@ -115,6 +115,8 @@
       </div>
     </section>
 
+    <div class="paper-seam paper-seam--to-white" aria-hidden="true"></div>
+
     <section id="sobre" class="about-paper">
       <div class="paper-shell">
         <header class="paper-heading reveal">
@@ -125,13 +127,22 @@
         <div class="about-paper__layout">
           <figure class="portrait-print reveal">
             <div class="portrait-print__back" aria-hidden="true"></div>
-            <img
-              src="assets/victor-editorial.png"
-              alt="Retrato de Victor Eduardo"
-              width="1187"
-              height="1325"
-              loading="lazy"
-              decoding="async">
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  assets/victor-portrait-480.webp 480w,
+                  assets/victor-portrait-800.webp 800w,
+                  assets/victor-portrait-1187.webp 1187w"
+                sizes="(max-width: 700px) 86vw, (max-width: 980px) 42vw, 520px">
+              <img
+                src="assets/victor-editorial.png"
+                alt="Retrato de Victor Eduardo"
+                width="1187"
+                height="1325"
+                loading="lazy"
+                decoding="async">
+            </picture>
             <figcaption>Victor Eduardo — 25 anos</figcaption>
           </figure>
 
@@ -188,6 +199,8 @@
       </div>
     </section>
 
+    <div class="paper-seam paper-seam--to-yellow paper-seam--reverse" aria-hidden="true"></div>
+
     <section id="tanarede" class="tanarede-paper">
       <div class="paper-shell">
         <div class="tanarede-title reveal">
@@ -219,7 +232,8 @@
               width="1080"
               height="1920"
               loading="lazy"
-              decoding="async">
+              decoding="async"
+              sizes="(max-width: 700px) 46vw, (max-width: 980px) 34vw, 360px">
             <figcaption>a home do jogador</figcaption>
           </figure>
 
@@ -239,7 +253,8 @@
               width="1080"
               height="1920"
               loading="lazy"
-              decoding="async">
+              decoding="async"
+              sizes="(max-width: 700px) 46vw, (max-width: 980px) 34vw, 360px">
             <figcaption>perfil, números e história do jogador</figcaption>
           </figure>
         </div>
@@ -264,6 +279,8 @@
         </div>
       </div>
     </section>
+
+    <div class="paper-seam paper-seam--to-paper" aria-hidden="true"></div>
 
     <section id="trabalho" class="work-paper">
       <div class="paper-shell">
@@ -304,6 +321,8 @@
         </p>
       </div>
     </section>
+
+    <div class="paper-seam paper-seam--to-sky paper-seam--reverse" aria-hidden="true"></div>
 
     <section id="processo" class="process-paper">
       <div class="paper-shell">
@@ -357,6 +376,8 @@
       </div>
     </section>
 
+    <div class="paper-seam paper-seam--to-coral" aria-hidden="true"></div>
+
     <section id="contato" class="contact-paper">
       <div class="paper-shell">
         <p class="contact-paper__small reveal">fim da página, começo da conversa</p>
@@ -391,12 +412,14 @@
     </section>
   </main>
 
+  <div class="paper-seam paper-seam--to-paper paper-seam--reverse" aria-hidden="true"></div>
+
   <footer class="footer-paper">
     <a href="#inicio">victor.eduardo</a>
     <p>feito com código, café e revisões demais</p>
     <span>© <span id="year"></span></span>
   </footer>
 
-  <script src="script.js?v=20260926-paper1" defer></script>
+  <script src="script.js?v=20260926-paper2" defer></script>
 </body>
 </html>
