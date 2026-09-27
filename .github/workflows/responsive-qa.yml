@@ -36,7 +36,7 @@ jobs:
 
       - name: Test desktop, tablet and mobile layouts
         run: |
-          cat > /tmp/qa.mjs <<'EOF'
+          cat > qa.mjs <<'EOF'
           import { chromium } from "playwright";
 
           const cases = [
@@ -167,7 +167,7 @@ jobs:
           console.log("\nAll responsive QA checks passed.");
           EOF
 
-          node /tmp/qa.mjs
+          node qa.mjs
 
       - name: Remove temporary QA workflow
         run: |
